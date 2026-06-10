@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Always-On Account Agent — Digital Chief of Staff</title>
+  <meta name="description" content="Run Digital Chief of Staff as a scheduled Claude agent: background Salesforce sync + Routines that discover account updates on your watchlist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #06080c;
+      --bg-elevated: #0c1018;
+      --surface: #121824;
+      --surface-hover: #1a2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4f6f9;
+      --muted: #8b95a8;
+      --dim: #5c6578;
+      --teal: #00bfb3;
+      --teal-glow: rgba(0, 191, 179, 0.35);
+      --green: #3dd68c;
+      --gold: #f5a623;
+      --radius: 14px;
+      --max: 820px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+      pointer-events: none; z-index: 0;
+    }
+    .bg-glow {
+      position: fixed; width: 700px; height: 500px; top: -150px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, var(--teal-glow), transparent 70%);
+      opacity: 0.4; pointer-events: none; z-index: 0;
+    }
+    .wrap { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 0 1.5rem 4rem; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.05rem;
+    }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 11px;
+      background: linear-gradient(145deg, #1e2838, #0a0e14);
+      border: 1px solid var(--border);
+      display: grid; place-items: center; font-weight: 700; color: var(--teal);
+    }
+    .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav {
+      background: var(--teal) !important; color: #041010 !important;
+      padding: 0.55rem 1.1rem !important; border-radius: 999px !important; font-weight: 600 !important;
+    }
+    .pill {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      padding: 0.35rem 0.75rem; border-radius: 999px;
+      background: rgba(0,191,179,0.12); color: var(--teal);
+      border: 1px solid rgba(0,191,179,0.3); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    .lead { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
+    .callout {
+      padding: 1.25rem 1.5rem; border-radius: var(--radius);
+      background: rgba(0,191,179,0.08); border: 1px solid rgba(0,191,179,0.25);
+      margin: 2rem 0; font-size: 0.95rem;
+    }
+    .callout strong { color: var(--teal); }
+    .callout.warn {
+      background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.3);
+    }
+    .callout.warn strong { color: var(--gold); }
+    article { margin: 2.5rem 0; }
+    article h2 {
+      font-size: 1.35rem; letter-spacing: -0.02em;
+      margin-bottom: 0.75rem; padding-top: 0.5rem;
+    }
+    article h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
+    article p, article li { color: var(--muted); margin-bottom: 0.75rem; }
+    article ul, article ol { margin: 0.5rem 0 1rem 1.25rem; }
+    article li { margin-bottom: 0.4rem; }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 0.88rem;
+      margin: 1rem 0 1.5rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    }
+    th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(0,0,0,0.25); color: var(--dim); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--text); font-weight: 500; }
+    pre {
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.15rem; overflow-x: auto;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.82rem;
+      line-height: 1.55; color: #c8d0dc; margin: 1rem 0 1.25rem;
+    }
+    code { font-family: "IBM Plex Mono", monospace; font-size: 0.88em; color: var(--teal); }
+    .steps {
+      counter-reset: step; list-style: none; margin: 1rem 0; padding: 0;
+    }
+    .steps li {
+      counter-increment: step; position: relative;
+      padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 0.75rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute; left: 1.15rem; top: 1.15rem;
+      width: 1.75rem; height: 1.75rem; border-radius: 8px;
+      background: rgba(0,191,179,0.15); color: var(--teal);
+      font-weight: 700; font-size: 0.85rem;
+      display: grid; place-items: center;
+    }
+    .steps li strong { display: block; color: var(--text); margin-bottom: 0.35rem; }
+    .steps li span { color: var(--muted); font-size: 0.92rem; }
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem;
+      text-align: center; color: var(--dim); font-size: 0.82rem;
+    }
+    footer a { color: var(--teal); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 600px) {
+      .nav-links a:not(.btn-nav) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="./">
+        <span class="brand-mark">D</span>
+        Digital Chief of Staff
+      </a>
+      <div class="nav-links">
+        <a href="./">Home</a>
+        <a href="./#download" class="btn-nav">Download</a>
+      </div>
+    </nav>
+
+    <span class="pill">Claude Desktop · Scheduled agent</span>
+    <h1>Run DCOS as an always-on account agent</h1>
+    <p class="lead">
+      Your extension gives Claude access to Salesforce and Elasticsearch when a session runs.
+      To <em>continuously</em> discover updates on your accounts, combine <strong>background CRM sync</strong>
+      with a <strong>scheduled Claude Routine</strong> — not a 24/7 daemon inside Claude.
+    </p>
+
+    <div class="callout">
+      <strong>Two layers:</strong> (1) macOS/Windows sync keeps Elasticsearch fresh every ~15 minutes.
+      (2) Claude wakes on a schedule, reads your watchlist, compares deltas, researches the web, and saves notes.
+    </div>
+
+    <article>
+      <h2>What runs where</h2>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Always on?</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Elasticsearch</td>
+            <td>Yes</td>
+            <td>Local or Elastic Cloud — account memory index</td>
+          </tr>
+          <tr>
+            <td>SF sync (<code>sfdc-sync</code>)</td>
+            <td>Yes (optional)</td>
+            <td>Pulls CRM changes into ES on a timer — no Claude needed</td>
+          </tr>
+          <tr>
+            <td>DCOS MCP extension</td>
+            <td>No</td>
+            <td>Claude starts it per chat or per Routine run</td>
+          </tr>
+          <tr>
+            <td>Claude Routine</td>
+            <td>Scheduled</td>
+            <td>Agent session: sync → search → Jina → brief → note</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Claude Desktop does not keep an agent process running between sessions.
+        “Always on” in practice means <strong>fresh data in the background</strong> plus
+        <strong>automated agent runs</strong> on a cadence you choose.
+      </p>
+    </article>
+
+    <article>
+      <h2>Setup in three steps</h2>
+      <ol class="steps">
+        <li>
+          <strong>Install DCOS + extension</strong>
+          <span>
+            Double-click the platform installer from the
+            <a href="./#download" style="color:var(--teal)">download page</a>.
+            Pick your role and account watchlist during setup — stored in
+            <code>~/.config/dcos/accounts.yaml</code>.
+          </span>
+        </li>
+        <li>
+          <strong>Background Salesforce sync (macOS)</strong>
+          <span>Keep CRM data indexed even when Claude is closed.</span>
+        </li>
+        <li>
+          <strong>Schedule a Claude Routine</strong>
+          <span>Local routine with DCOS + Jina connectors; runs your discovery workflow on autopilot.</span>
+        </li>
+      </ol>
+    </article>
+
+    <article>
+      <h2>Step 2 — Background sync (macOS)</h2>
+      <p>After install, enable launchd to sync Salesforce → Elasticsearch every 15 minutes:</p>
+      <pre>cp launchd/com.elastic.dcos.sfdc-sync.plist.example \
+  ~/Library/LaunchAgents/com.elastic.dcos.sfdc-sync.plist
+
+# Edit paths in the plist to match your install location, then:
+launchctl load ~/Library/LaunchAgents/com.elastic.dcos.sfdc-sync.plist</pre>
+      <p>
+        The plist ships inside the installer payload under <code>launchd/</code>, or in the
+        <a href="https://github.com/poulsbopete/digital-chief-of-staff">source repo</a>.
+        Logs: <code>/tmp/dcos-sfdc-sync.log</code>
+      </p>
+      <h3>Windows / cron alternative</h3>
+      <pre>*/15 6-20 * * 1-5 source ~/.config/dcos/env.sh &amp;&amp; \
+  node /path/to/digital-chief-of-staff/scripts/sfdc-sync.mjs</pre>
+    </article>
+
+    <article>
+      <h2>Step 3 — Claude Routine</h2>
+      <h3>Create a Project (once)</h3>
+      <p>
+        Claude Desktop → <strong>Projects</strong> → new project → paste project instructions from the
+        installer docs (<code>claude/project-instructions.md</code> in the repo).
+        This gives every chat and routine the same MEDDPIC workflow.
+      </p>
+
+      <h3>New local routine</h3>
+      <p>Cowork → <strong>Schedule</strong> (or Routines → New → <strong>Local</strong>):</p>
+      <table>
+        <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Schedule</td><td>Weekdays 6:00 AM (add noon for midday pulse)</td></tr>
+          <tr><td>Connectors</td><td><code>digital-chief-of-staff</code> + <strong>Jina</strong></td></tr>
+          <tr><td>Project</td><td>Your DCOS project (recommended)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Prompt — paste into the routine</h3>
+      <pre>You are my Digital Chief of Staff for Elastic sales.
+
+First run dcos_user_profile to load my persona and account watchlist.
+Only research accounts on my watchlist unless I specify otherwise.
+
+Steps — execute all before writing the brief:
+1. dcos_sfdc_sync — refresh Salesforce into Elasticsearch
+2. dcos_sfdc_list_opportunities with limit 100 — open pipeline on watchlist
+3. For each watchlist account (or top 15 by close date):
+   a. dcos_search — MEDDPIC context, recent blockers, prior briefs
+   b. Jina parallel_search_web (tbs qdr:w): "&lt;Account&gt; news", leadership change, observability OR security
+4. Compare against prior dcos_search notes — highlight MEDDPIC deltas since last run
+5. dcos_connector_list — if Slack/KB configured, pull internal signals
+
+Output:
+## Account updates (last 24h)
+Bullets per account — CRM delta + external signal + recommended action
+
+## Territory pulse
+2-3 sentences on what changed.
+
+## Actions today
+Numbered list with owner and date.
+
+Rules:
+- Ground all CRM numbers from dcos_sfdc_* tools only
+- MEDDPIC terminology throughout
+- After the brief, dcos_add_note summarizing material changes (source: dcos_scheduled_brief)</pre>
+    </article>
+
+    <article>
+      <h2>Enable unattended runs</h2>
+      <div class="callout warn">
+        <strong>Tool approvals:</strong> If DCOS tools are set to “Needs approval,” a scheduled routine
+        will stall until you click approve on each tool call.
+      </div>
+      <p>
+        Claude Desktop → Settings → Extensions → <strong>digital-chief-of-staff</strong> →
+        <strong>Other tools</strong> → change from <em>Needs approval</em> to
+        <em>Allow automatically</em> (or allow individually:
+        <code>dcos_sfdc_sync</code>, <code>dcos_search</code>, <code>dcos_sfdc_list_opportunities</code>,
+        <code>dcos_add_note</code>).
+      </p>
+      <h3>Requirements for local routines</h3>
+      <ul>
+        <li>Claude Desktop <strong>open</strong> (can be in background)</li>
+        <li>Mac <strong>awake</strong> at run time</li>
+        <li>Valid Salesforce session — re-run Login to Salesforce when tokens expire</li>
+      </ul>
+    </article>
+
+    <article>
+      <h2>What each run discovers</h2>
+      <ul>
+        <li><code>dcos_user_profile</code> — your role + watchlist accounts</li>
+        <li><code>dcos_sfdc_sync</code> — latest CRM field changes</li>
+        <li><code>dcos_search</code> — diff vs prior indexed notes</li>
+        <li>Jina — external news and trigger events</li>
+        <li><code>dcos_add_note</code> — persist findings for the next delta comparison</li>
+      </ul>
+    </article>
+
+    <article>
+      <h2>Test before scheduling</h2>
+      <p>In a new chat (with DCOS + Jina enabled):</p>
+      <pre>Run dcos_user_profile, then dcos_sfdc_sync, then scan my watchlist for
+anything that changed in the last 24 hours vs prior dcos_search notes.
+Summarize deltas only.</pre>
+      <p>If that completes without manual tool approvals, your routine will run unattended.</p>
+    </article>
+
+    <article>
+      <h2>When the laptop is closed</h2>
+      <table>
+        <thead><tr><th>Approach</th><th>Tradeoff</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Local routine</td>
+            <td>Full SF + ES access; requires Claude open and Mac awake</td>
+          </tr>
+          <tr>
+            <td>Cloud routine (Remote)</td>
+            <td>Runs when laptop is off; cannot reach local SF — uses synced ES + Jina only</td>
+          </tr>
+          <tr>
+            <td>Elastic Cloud + server cron</td>
+            <td>Move ES to Cloud; run sync on a VM — best for team-wide always-on data</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <footer>
+      <p>
+        <a href="./">← Back to download page</a>
+        · <a href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Releases</a>
+        · Digital Chief of Staff · Elastic field enablement
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
