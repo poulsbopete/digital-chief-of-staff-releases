@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Always-On Account Agent — Digital Chief of Staff</title>
   <meta name="description" content="Run Digital Chief of Staff as a scheduled Claude agent: background Salesforce sync + Routines that discover account updates on your watchlist." />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -58,9 +59,8 @@
     }
     .brand-mark {
       width: 40px; height: 40px; border-radius: 11px;
-      background: linear-gradient(145deg, #1e2838, #0a0e14);
-      border: 1px solid var(--border);
-      display: grid; place-items: center; font-weight: 700; color: var(--teal);
+      flex-shrink: 0; display: block;
+      box-shadow: 0 4px 16px rgba(0, 191, 179, 0.2);
     }
     .nav-links { display: flex; gap: 1.25rem; align-items: center; }
     .nav-links a {
@@ -154,7 +154,7 @@
   <div class="wrap">
     <nav>
       <a class="brand" href="./">
-        <span class="brand-mark">D</span>
+        <img class="brand-mark" src="logo.svg" alt="" width="40" height="40" />
         Digital Chief of Staff
       </a>
       <div class="nav-links">
