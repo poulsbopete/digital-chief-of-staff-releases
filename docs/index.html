@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Chief of Staff — Download</title>
+  <meta name="description" content="Download Digital Chief of Staff installers for macOS, Windows, and Claude Desktop." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --surface: #141820;
+      --border: #252b36;
+      --text: #e8ecf1;
+      --muted: #8b95a5;
+      --accent: #00bfb3;
+      --accent-dim: rgba(0, 191, 179, 0.12);
+      --mac: #0071e3;
+      --win: #0078d4;
+      --claude: #d97757;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1a1f2e, #0f1218);
+      border: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin: 0 auto 2rem;
+    }
+    .version {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(0, 191, 179, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+    }
+    .cards {
+      display: grid;
+      gap: 1rem;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.5rem;
+    }
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: #3a4455; }
+    .card-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .card-icon.mac { background: rgba(0, 113, 227, 0.15); }
+    .card-icon.win { background: rgba(0, 120, 212, 0.15); }
+    .card-icon.claude { background: rgba(217, 119, 87, 0.15); }
+    .card-body { flex: 1; min-width: 0; }
+    .card-body h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .card-body p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled, .btn.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .btn.mac { background: var(--mac); }
+    .btn.win { background: var(--win); }
+    .btn.claude { background: var(--claude); }
+    .steps {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+    .steps h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .steps ol {
+      padding-left: 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .steps li { margin-bottom: 0.5rem; }
+    .steps li strong { color: var(--text); font-weight: 500; }
+    .error {
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      padding: 1rem 1.25rem;
+      background: rgba(220, 80, 80, 0.1);
+      border: 1px solid rgba(220, 80, 80, 0.3);
+      border-radius: 8px;
+      color: #f0a0a0;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .error.visible { display: block; }
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="logo" aria-hidden="true">D</div>
+    <h1>Digital Chief of Staff</h1>
+    <p class="subtitle">
+      Elastic sales enablement for Claude Desktop — Elasticsearch, Salesforce, and MEDDPIC coaching in one installer.
+    </p>
+    <div class="version" id="version">Loading latest release…</div>
+  </header>
+
+  <div class="error" id="error" role="alert"></div>
+
+  <section class="cards" aria-label="Downloads">
+    <article class="card">
+      <div class="card-icon mac" aria-hidden="true">&#63743;</div>
+      <div class="card-body">
+        <h2>macOS</h2>
+        <p>Digital-Chief-of-Staff-Installer.dmg — open, then double-click Install.</p>
+      </div>
+      <a class="btn mac loading" id="btn-dmg" href="#" download>Download</a>
+    </article>
+    <article class="card">
+      <div class="card-icon win" aria-hidden="true">&#8862;</div>
+      <div class="card-body">
+        <h2>Windows</h2>
+        <p>Digital-Chief-of-Staff-Setup.exe — run the setup wizard.</p>
+      </div>
+      <a class="btn win loading" id="btn-exe" href="#" download>Download</a>
+    </article>
+    <article class="card">
+      <div class="card-icon claude" aria-hidden="true">C</div>
+      <div class="card-body">
+        <h2>Claude Desktop only</h2>
+        <p>digital-chief-of-staff.mcpb — extension bundle if ES is already set up.</p>
+      </div>
+      <a class="btn claude loading" id="btn-mcpb" href="#" download>Download</a>
+    </article>
+  </section>
+
+  <section class="steps">
+    <h3>Quick start</h3>
+    <ol>
+      <li><strong>Download</strong> the installer for your platform.</li>
+      <li><strong>Run it</strong> — Elasticsearch, Claude extension, and config are set up automatically.</li>
+      <li><strong>Salesforce</strong> — double-click <em>Login to Salesforce</em> when prompted (browser login).</li>
+      <li>In Claude, ask: <em>Run dcos_sfdc_auth_status</em></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>
+      Requires Node.js 18+, Claude Desktop, and network access to Elasticsearch.
+      <br />
+      <a href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">All releases</a>
+    </p>
+  </footer>
+
+  <script>
+    const REPO = "poulsbopete/digital-chief-of-staff-releases";
+
+    function assetUrl(assets, pattern) {
+      const a = assets.find((x) => pattern.test(x.name));
+      return a ? a.browser_download_url : null;
+    }
+
+    function setBtn(id, url) {
+      const el = document.getElementById(id);
+      if (!url) {
+        el.textContent = "Not found";
+        el.classList.add("loading");
+        return;
+      }
+      el.href = url;
+      el.classList.remove("loading");
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("error");
+      el.textContent = msg;
+      el.classList.add("visible");
+    }
+
+    async function loadRelease() {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        const data = await res.json();
+        const assets = data.assets || [];
+
+        document.getElementById("version").textContent = `${data.tag_name || data.name} · ${new Date(data.published_at).toLocaleDateString()}`;
+
+        setBtn("btn-dmg", assetUrl(assets, /\.dmg$/i));
+        setBtn("btn-exe", assetUrl(assets, /\.exe$/i));
+        setBtn("btn-mcpb", assetUrl(assets, /\.mcpb$/i));
+
+        if (!assets.length) {
+          showError("No release assets yet. Check back after the first tagged release is published.");
+        }
+      } catch (e) {
+        document.getElementById("version").textContent = "Release unavailable";
+        showError("Could not load downloads. Try the GitHub Releases page directly.");
+        ["btn-dmg", "btn-exe", "btn-mcpb"].forEach((id) => {
+          document.getElementById(id).textContent = "Unavailable";
+        });
+      }
+    }
+
+    loadRelease();
+  </script>
+</body>
+</html>
