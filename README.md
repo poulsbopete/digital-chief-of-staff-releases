@@ -5,7 +5,7 @@ Public installer hosting for [Digital Chief of Staff](https://github.com/poulsbo
 | | URL |
 |---|---|
 | **Live site (Vercel)** | https://digital-chief-of-staff-releases.vercel.app/ |
-| **Always-on agent guide** | https://digital-chief-of-staff-releases.vercel.app/always-on-agent |
+| **Example prompts** | https://digital-chief-of-staff-releases.vercel.app/example-prompts |
 | **GitHub Pages** | https://poulsbopete.github.io/digital-chief-of-staff-releases/ |
 | **Release files** | https://github.com/poulsbopete/digital-chief-of-staff-releases/releases |
 

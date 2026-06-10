@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Example Prompts by Persona — Digital Chief of Staff</title>
+  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, and Customer Architect — account research, 1-2-3 tech wins, MEDDPIC coaching, and territory briefs." />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #06080c; --surface: #121824; --border: rgba(255,255,255,0.08);
+      --text: #f4f6f9; --muted: #8b95a8; --dim: #5c6578; --teal: #00bfb3;
+      --gold: #f5a623; --radius: 14px; --max: 900px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "IBM Plex Sans", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+      pointer-events: none; z-index: 0;
+    }
+    .wrap { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 0 1.5rem 4rem; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem;
+    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text); font-weight: 700; }
+    .brand-mark { width: 40px; height: 40px; border-radius: 11px; box-shadow: 0 4px 16px rgba(0,191,179,0.2); }
+    .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav { background: var(--teal) !important; color: #041010 !important; padding: 0.55rem 1.1rem !important; border-radius: 999px !important; font-weight: 600 !important; }
+    h1 { font-size: clamp(1.85rem, 4vw, 2.4rem); letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+    .lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 2rem; max-width: 640px; }
+    .persona-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .persona-tab {
+      padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; font-family: inherit;
+    }
+    .persona-tab.active { background: rgba(0,191,179,0.12); border-color: rgba(0,191,179,0.4); color: var(--teal); }
+    .persona-panel { display: none; }
+    .persona-panel.active { display: block; }
+    .role { color: var(--teal); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .persona-panel h2 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+    .persona-panel > p { color: var(--muted); margin-bottom: 1.5rem; }
+    .prompt-block { margin-bottom: 2rem; }
+    .prompt-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .prompt-head h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); font-weight: 600; }
+    .copy-btn {
+      font-family: inherit; font-size: 0.78rem; font-weight: 600;
+      padding: 0.35rem 0.75rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--teal);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .copy-btn:hover { background: rgba(0,191,179,0.1); }
+    .copy-btn.copied { color: var(--gold); border-color: rgba(245,166,35,0.4); }
+    pre.prompt {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.15rem 1.25rem; overflow-x: auto;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; line-height: 1.6;
+      color: #c8d0dc; white-space: pre-wrap; word-break: break-word;
+    }
+    .example-label {
+      font-size: 0.75rem; color: var(--gold); font-weight: 600; margin: 1.25rem 0 0.5rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    footer { border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 2rem; text-align: center; color: var(--dim); font-size: 0.82rem; }
+    footer a { color: var(--teal); text-decoration: none; }
+    @media (max-width: 600px) { .nav-links a:not(.btn-nav) { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="./">
+        <img class="brand-mark" src="logo.svg" alt="" width="40" height="40" />
+        Digital Chief of Staff
+      </a>
+      <div class="nav-links">
+        <a href="./">Home</a>
+        <a href="always-on-agent.html">Always-on agent</a>
+        <a href="./#download" class="btn-nav">Download</a>
+      </div>
+    </nav>
+
+    <h1>Example prompts by persona</h1>
+    <p class="lead">
+      Copy into Claude Desktop after install. DCOS pulls Salesforce + your watchlist, researches the web,
+      and formats output for your role. Replace bracketed placeholders with real account and opp names.
+    </p>
+
+    <div class="persona-tabs" id="persona-tabs">
+      <button type="button" class="persona-tab" data-persona="sdr">SDR</button>
+      <button type="button" class="persona-tab active" data-persona="sa">Solution Architect</button>
+      <button type="button" class="persona-tab" data-persona="ae">Account Executive</button>
+      <button type="button" class="persona-tab" data-persona="avp">AVP / Leader</button>
+      <button type="button" class="persona-tab" data-persona="ca">Customer Architect</button>
+    </div>
+
+    <!-- SDR -->
+    <div class="persona-panel" data-panel="sdr">
+      <div class="role">SDR · Prospecting &amp; discovery</div>
+      <h2>Research an account before outbound</h2>
+      <p>Pre-qualify I, M, C — trigger events, ICP fit, and discovery questions mapped to Elastic Observability, Search, and Security.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — account research</h3>
+          <button type="button" class="copy-btn" data-copy="sdr-research">Copy</button>
+        </div>
+        <pre class="prompt" id="sdr-research">Run dcos_user_profile, then dcos_sfdc_sync.
+
+I'm an SDR researching [Account Name] before my first conversation with the [Observability | Search | Security] team.
+
+1. dcos_search — prior notes, industry, and any existing Elastic footprint
+2. Jina — past 30 days: earnings, layoffs/hiring, cloud migration, breach/SOC news, GenAI initiatives
+3. dcos_sfdc_query — open tasks, recent activities, and related contacts if in CRM
+
+Output:
+## Trigger events (ranked)
+## ICP fit — Observability / Search / Security (1–5 each with evidence)
+## Discovery questions (8–10)
+   - 3 for Observability (OTel, tool sprawl, MTTR, log volume)
+   - 3 for Search / GenAI (RAG, vector, customer-facing search)
+   - 3 for Security (SIEM, endpoint, alert fatigue, consolidation vs Splunk)
+## Outbound hook (2 sentences, no EB claims)
+## MEDDPIC pre-qual: I, M, C only — gaps to validate on the call
+
+Do not invent ACV, stage, or contacts not in CRM.</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — post-call follow-up</h3>
+          <button type="button" class="copy-btn" data-copy="sdr-followup">Copy</button>
+        </div>
+        <pre class="prompt" id="sdr-followup">I just spoke with [Title] at [Account] about [pain theme].
+
+Summarize MEDDPIC pre-qual (I, M, C). Draft a follow-up email that ties their pain to Elastic [Observability | Search | Security].
+Suggest the right AE/SA handoff and dcos_add_note with source: sdr_discovery.</pre>
+      </div>
+    </div>
+
+    <!-- SA -->
+    <div class="persona-panel active" data-panel="sa">
+      <div class="role">Solution Architect · Tech win tracking</div>
+      <h2>1-2-3 weekly tech-win update</h2>
+      <p>Standard SA format for deal reviews, Slack updates, and StratTrack notes — path to tech win, last week, this week.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — generate 1-2-3</h3>
+          <button type="button" class="copy-btn" data-copy="sa-prompt">Copy</button>
+        </div>
+        <pre class="prompt" id="sa-prompt">Run dcos_user_profile and dcos_sfdc_sync.
+
+Produce a Solution Architect 1-2-3 update for opportunity [Opp Name] at [Account].
+
+Use dcos_sfdc_get_opportunity, dcos_search (MEDDPIC + technical blockers), and Jina for competitive context.
+
+Format exactly:
+
+[Today's date] - [My initials]
+
+1. THE PATH TO TECH WIN IS...
+[One paragraph: decision criteria, architecture outcome, competitive angle, $ metrics tied to D and M in MEDDPIC]
+
+2. LAST WEEK. I...
+[Past tense bullets: workshops, PoC progress, criteria validated, EB/technical buyer meetings]
+
+3. THIS WEEK. I...
+[Forward actions with owners: waiting-on names, deliverables, close blockers]
+
+Rules:
+- Ground $ amounts and dates from CRM only
+- Name Elastic products (Observability/OTel, Security/SIEM, Search/vector)
+- End with one technical risk + mitigation
+- dcos_add_note with the 1-2-3 text (source: sa_123)</pre>
+      </div>
+
+      <p class="example-label">Example output (illustrative)</p>
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Sample 1-2-3</h3>
+          <button type="button" class="copy-btn" data-copy="sa-example">Copy</button>
+        </div>
+        <pre class="prompt" id="sa-example">06.10.2026 - PS
+
+1. THE PATH TO TECH WIN IS...
+Secure $452.2K LogsDB cost advantage on multi-year renewal to beat Splunk. $135.2K annual savings (30.5% reduction) justifies renewal at competitive ACV. Technical win = side-by-side ingest benchmark + ES|QL for SOC analysts on unified stack.
+
+2. LAST WEEK. I...
+Presented LogsDB ROI to Talos economic buyer. Customer acknowledged cost advantage is material. Ran Splunk TCO comparison workshop. Multi-year renewal term sheet aligned with procurement.
+
+3. THIS WEEK. I...
+WAITING ON JIMMY for final signature. Deal tracking to close any day. Confirm signature timeline with Aaron. Ready to transition to deployment playbook once signed.</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — PoC / eval brief</h3>
+          <button type="button" class="copy-btn" data-copy="sa-poc">Copy</button>
+        </div>
+        <pre class="prompt" id="sa-poc">SA technical brief for [Account] — eval stage.
+
+Build decision criteria matrix (customer requirements vs Elastic vs [Competitor]).
+PoC scope: success metrics, timeline, data sources, out-of-scope.
+Blocker list with owner (SA/AE/customer) and resolution path.
+Use dcos_search for prior architecture notes.</pre>
+      </div>
+    </div>
+
+    <!-- AE -->
+    <div class="persona-panel" data-panel="ae">
+      <div class="role">Account Executive · Deal coach</div>
+      <h2>Call prep and MEDDPIC coaching</h2>
+      <p>Scorecard, talk track, and next action from live pipeline — never invent CRM fields.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — deal coach</h3>
+          <button type="button" class="copy-btn" data-copy="ae-coach">Copy</button>
+        </div>
+        <pre class="prompt" id="ae-coach">Run dcos_user_profile and dcos_sfdc_sync.
+
+Coach me on [Account] — opportunity [Opp Name], close date [from CRM].
+
+Output:
+## MEDDPIC scorecard (0–3 per letter with evidence from dcos_sfdc_get_opportunity + dcos_search)
+## Weakest letter + why it matters now
+## Talk track for my next call (3 bullets)
+## Discovery questions to close gaps (5)
+## Competitive positioning vs [Competitor if known]
+## One next action — owner, date, success criteria
+
+dcos_add_note with material MEDDPIC changes (source: ae_coach).</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — multi-threading plan</h3>
+          <button type="button" class="copy-btn" data-copy="ae-multithread">Copy</button>
+        </div>
+        <pre class="prompt" id="ae-multithread">For [Opp Name] at [Account]: map known contacts from CRM and notes.
+Who is missing for E and C in MEDDPIC? Suggest 3 personas to engage (EB, champion, technical buyer).
+Draft intro ask for my champion to open a door.</pre>
+      </div>
+    </div>
+
+    <!-- AVP -->
+    <div class="persona-panel" data-panel="avp">
+      <div class="role">Area VP · Territory pulse</div>
+      <h2>Leadership briefs and rep handoffs</h2>
+      <p>Territory rollup — heat map, talking points, one action per rep. Ideal for morning routines or Monday staff meetings.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — morning brief</h3>
+          <button type="button" class="copy-btn" data-copy="avp-brief">Copy</button>
+        </div>
+        <pre class="prompt" id="avp-brief">Run dcos_user_profile and dcos_sfdc_sync.
+
+Produce my AVP territory morning brief for [Quarter].
+
+1. dcos_sfdc_list_opportunities — open pipeline on my watchlist
+2. Per account: dcos_search + Jina (qdr:w) for material changes
+3. Compare to prior dcos_search notes — MEDDPIC deltas only
+
+Output:
+## Territory pulse (2–3 sentences)
+## Talking points for leadership (3 — headline, evidence, ask)
+## Account heat map (🔴/🟡/🟢, weakest MEDDPIC letter, owner)
+## Rep handoffs (one high-impact action per rep today)
+## External signals (sourced)
+
+dcos_add_note summarizing territory changes (source: avp_brief).</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — QBR prep</h3>
+          <button type="button" class="copy-btn" data-copy="avp-qbr">Copy</button>
+        </div>
+        <pre class="prompt" id="avp-qbr">QBR prep for [Rep Name]'s patch.
+
+Roll up: commit vs best case, deals at risk (weakest E or P), coaching theme for the quarter.
+3 questions I should ask in the 1:1 based on MEDDPIC gaps in their top 5 opps.</pre>
+      </div>
+    </div>
+
+    <!-- CA -->
+    <div class="persona-panel" data-panel="ca">
+      <div class="role">Customer Architect · Expansion &amp; health</div>
+      <h2>Customer health and expansion plays</h2>
+      <p>Existing customers — adoption signals, expansion use cases, and reference potential.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — customer brief</h3>
+          <button type="button" class="copy-btn" data-copy="ca-brief">Copy</button>
+        </div>
+        <pre class="prompt" id="ca-brief">Run dcos_user_profile and dcos_sfdc_sync.
+
+Customer Architect brief for [Account] (status: customer).
+
+Filter watchlist for status: customer. Use dcos_search for deployment notes, support themes, expansion history.
+Jina — customer news, earnings, engineering initiatives (past 90 days).
+
+Output:
+## Health signals (usage/adoption themes from notes — trend ↑/↓/→)
+## Expansion opportunities (use case → Elastic product → impact)
+## Risk signals (layoffs, competitor POC, leadership change)
+## Reference / advocacy potential (1–5 + rationale)
+## Recommended actions (CA, AE, SA) with dates
+
+Reframe MEDDPIC for expansion: new M, E for expansion BU, I in adjacent team, C for next product line.</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — QBR with customer</h3>
+          <button type="button" class="copy-btn" data-copy="ca-qbr">Copy</button>
+        </div>
+        <pre class="prompt" id="ca-qbr">Prepare a Customer Architect QBR deck outline for [Account].
+
+Sections: value delivered (metrics from notes), adoption roadmap, expansion plays (Observability → Security cross-sell),
+open support themes, and 3 questions for their VP sponsor.</pre>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        <a href="./">← Home</a>
+        · <a href="always-on-agent.html">Schedule these as routines</a>
+        · <a href="./#download">Download DCOS</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("persona-tabs").addEventListener("click", (e) => {
+      const tab = e.target.closest(".persona-tab");
+      if (!tab) return;
+      const id = tab.dataset.persona;
+      document.querySelectorAll(".persona-tab").forEach((t) => t.classList.remove("active"));
+      document.querySelectorAll(".persona-panel").forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelector(`[data-panel="${id}"]`)?.classList.add("active");
+    });
+
+    document.querySelectorAll(".copy-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.copy;
+        const text = document.getElementById(id)?.textContent || "";
+        try {
+          await navigator.clipboard.writeText(text.trim());
+          btn.textContent = "Copied!";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "Copy";
+            btn.classList.remove("copied");
+          }, 2000);
+        } catch {
+          btn.textContent = "Select & copy";
+        }
+      });
+    });
+
+    if (location.hash === "#sdr" || location.hash === "#ae" || location.hash === "#avp" || location.hash === "#ca" || location.hash === "#sa") {
+      const id = location.hash.slice(1);
+      document.querySelector(`.persona-tab[data-persona="${id}"]`)?.click();
+    }
+  </script>
+</body>
+</html>
