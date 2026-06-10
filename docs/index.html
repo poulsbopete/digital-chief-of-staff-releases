@@ -3,287 +3,822 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Chief of Staff — Download</title>
-  <meta name="description" content="Download Digital Chief of Staff installers for macOS, Windows, and Claude Desktop." />
+  <title>Digital Chief of Staff — The AI Agent Built for Elastic Sales</title>
+  <meta name="description" content="MEDDPIC-grounded morning briefs, live Salesforce pipeline, and account memory in Elasticsearch — one installer for Claude Desktop." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b0d12;
-      --surface: #141820;
-      --border: #252b36;
-      --text: #e8ecf1;
-      --muted: #8b95a5;
-      --accent: #00bfb3;
-      --accent-dim: rgba(0, 191, 179, 0.12);
-      --mac: #0071e3;
+      --bg: #06080c;
+      --bg-elevated: #0c1018;
+      --surface: #121824;
+      --surface-hover: #1a2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4f6f9;
+      --muted: #8b95a8;
+      --dim: #5c6578;
+      --teal: #00bfb3;
+      --teal-glow: rgba(0, 191, 179, 0.35);
+      --violet: #7c5cff;
+      --gold: #f5a623;
+      --green: #3dd68c;
+      --mac: #0a84ff;
       --win: #0078d4;
       --claude: #d97757;
+      --radius: 14px;
+      --max: 1120px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: "IBM Plex Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
+      line-height: 1.55;
+      overflow-x: hidden;
     }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow {
+      position: fixed;
+      width: 900px;
+      height: 600px;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, var(--teal-glow), transparent 70%);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(145deg, #1e2838, #0a0e14);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav {
+      background: var(--teal) !important;
+      color: #041010 !important;
+      padding: 0.55rem 1.1rem !important;
+      border-radius: 999px !important;
+      font-weight: 600 !important;
+    }
+    .btn-nav:hover { filter: brightness(1.08); }
+
+    /* Hero */
     .hero {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem 2rem;
+      padding: 4.5rem 0 3rem;
       text-align: center;
     }
-    .logo {
-      display: inline-flex;
-      align-items: center;
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       justify-content: center;
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #1a1f2e, #0f1218);
-      border: 1px solid var(--border);
-      font-weight: 700;
-      font-size: 1.5rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
-    h1 {
-      font-size: clamp(1.75rem, 4vw, 2.25rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-    .subtitle {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 540px;
-      margin: 0 auto 2rem;
-    }
-    .version {
-      display: inline-block;
-      font-size: 0.8rem;
+    .pill {
+      font-size: 0.72rem;
       font-weight: 600;
-      text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid rgba(0, 191, 179, 0.25);
+      text-transform: uppercase;
       padding: 0.35rem 0.75rem;
       border-radius: 999px;
-      margin-bottom: 2rem;
-    }
-    .cards {
-      display: grid;
-      gap: 1rem;
-      max-width: 640px;
-      margin: 0 auto 2.5rem;
-      padding: 0 1.5rem;
-    }
-    .card {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      text-align: left;
-      transition: border-color 0.15s;
-    }
-    .card:hover { border-color: #3a4455; }
-    .card-icon {
-      flex-shrink: 0;
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
-    .card-icon.mac { background: rgba(0, 113, 227, 0.15); }
-    .card-icon.win { background: rgba(0, 120, 212, 0.15); }
-    .card-icon.claude { background: rgba(217, 119, 87, 0.15); }
-    .card-body { flex: 1; min-width: 0; }
-    .card-body h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-    .card-body p {
-      font-size: 0.875rem;
+      background: rgba(255,255,255,0.03);
       color: var(--muted);
+    }
+    .pill.teal { color: var(--teal); border-color: rgba(0,191,179,0.35); background: rgba(0,191,179,0.08); }
+    h1 {
+      font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+      max-width: 900px;
+      margin: 0 auto 1.25rem;
+    }
+    h1 .gradient {
+      background: linear-gradient(120deg, var(--teal) 0%, #6ee7de 40%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-lead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 2rem;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2.5rem;
     }
     .btn {
-      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.55rem 1rem;
-      border-radius: 8px;
-      font-size: 0.875rem;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
       font-weight: 600;
       text-decoration: none;
-      color: #fff;
       border: none;
       cursor: pointer;
-      transition: opacity 0.15s;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
     }
-    .btn:hover { opacity: 0.9; }
-    .btn:disabled, .btn.loading {
-      opacity: 0.5;
-      pointer-events: none;
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), #00a89e);
+      color: #031010;
+      box-shadow: 0 8px 32px var(--teal-glow);
     }
-    .btn.mac { background: var(--mac); }
-    .btn.win { background: var(--win); }
-    .btn.claude { background: var(--claude); }
-    .steps {
-      max-width: 640px;
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.loading { opacity: 0.55; pointer-events: none; }
+
+    /* Prompt demo */
+    .demo-box {
+      max-width: 720px;
       margin: 0 auto;
-      padding: 0 1.5rem 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
     }
-    .steps h3 {
-      font-size: 0.75rem;
+    .demo-label {
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      margin-bottom: 0.75rem;
     }
-    .steps ol {
-      padding-left: 1.25rem;
-      color: var(--muted);
-      font-size: 0.95rem;
+    .demo-prompt {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 3.2em;
     }
-    .steps li { margin-bottom: 0.5rem; }
-    .steps li strong { color: var(--text); font-weight: 500; }
-    .error {
-      max-width: 640px;
-      margin: 0 auto 2rem;
-      padding: 1rem 1.25rem;
-      background: rgba(220, 80, 80, 0.1);
-      border: 1px solid rgba(220, 80, 80, 0.3);
+    .demo-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--teal);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .demo-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .chip {
+      font-size: 0.78rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 8px;
-      color: #f0a0a0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .chip:hover, .chip.active {
+      border-color: rgba(0,191,179,0.5);
+      color: var(--teal);
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 4rem 0;
+    }
+    .stat {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: -0.02em;
+    }
+    .stat span { font-size: 0.85rem; color: var(--muted); }
+
+    /* Section */
+    section { padding: 4rem 0; }
+    .section-head {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+    .section-head h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      letter-spacing: -0.025em;
+      margin-bottom: 0.75rem;
+    }
+    .section-head p { color: var(--muted); font-size: 1.05rem; }
+
+    /* Feature grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .feature {
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .feature:hover {
+      border-color: rgba(0,191,179,0.25);
+      background: var(--surface-hover);
+    }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      background: rgba(0,191,179,0.1);
+    }
+    .feature h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .feature p { font-size: 0.9rem; color: var(--muted); }
+
+    /* Personas */
+    .persona-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .persona-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .persona-tab.active {
+      background: rgba(0,191,179,0.12);
+      border-color: rgba(0,191,179,0.4);
+      color: var(--teal);
+    }
+    .persona-panel {
+      display: none;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .persona-panel.active { display: block; }
+    .persona-panel h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .persona-panel .role { color: var(--teal); font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
+    .persona-panel ul { margin: 1rem 0 0 1.25rem; color: var(--muted); }
+    .persona-panel li { margin-bottom: 0.35rem; }
+
+    /* Compare */
+    .compare {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .compare table {
+      width: 100%;
+      border-collapse: collapse;
       font-size: 0.9rem;
+    }
+    .compare th, .compare td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare th { background: rgba(0,0,0,0.25); color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .compare tr:last-child td { border-bottom: none; }
+    .compare .win { color: var(--green); font-weight: 600; }
+    .compare .them { color: var(--dim); }
+
+    /* Downloads */
+    .downloads {
+      display: grid;
+      gap: 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .dl-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .dl-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    .dl-icon.mac { background: rgba(10,132,255,0.15); }
+    .dl-icon.win { background: rgba(0,120,212,0.15); }
+    .dl-icon.claude { background: rgba(217,119,87,0.15); }
+    .dl-body { flex: 1; min-width: 0; }
+    .dl-body h3 { font-size: 1rem; margin-bottom: 0.15rem; }
+    .dl-body p { font-size: 0.82rem; color: var(--muted); }
+    .btn-dl {
+      padding: 0.6rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-dl.mac { background: var(--mac); }
+    .btn-dl.win { background: var(--win); }
+    .btn-dl.claude { background: var(--claude); }
+    .version-badge {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .version-badge strong { color: var(--teal); }
+    .notice {
+      max-width: 720px;
+      margin: 1rem auto 0;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      text-align: center;
       display: none;
     }
-    .error.visible { display: block; }
-    footer {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.8rem;
+    .notice.warn {
+      display: block;
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.3);
+      color: #f5c842;
     }
-    footer a { color: var(--accent); text-decoration: none; }
+
+    /* Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .step {
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .step-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .step h4 { font-size: 0.95rem; margin-bottom: 0.35rem; }
+    .step p { font-size: 0.85rem; color: var(--muted); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--teal); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .nav-links a:not(.btn-nav) { display: none; }
+      .dl-card { flex-wrap: wrap; }
+      .compare { overflow-x: auto; }
+      .compare table { min-width: 520px; }
+    }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="logo" aria-hidden="true">D</div>
-    <h1>Digital Chief of Staff</h1>
-    <p class="subtitle">
-      Elastic sales enablement for Claude Desktop — Elasticsearch, Salesforce, and MEDDPIC coaching in one installer.
-    </p>
-    <div class="version" id="version">Loading latest release…</div>
-  </header>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
-  <div class="error" id="error" role="alert"></div>
-
-  <section class="cards" aria-label="Downloads">
-    <article class="card">
-      <div class="card-icon mac" aria-hidden="true">&#63743;</div>
-      <div class="card-body">
-        <h2>macOS</h2>
-        <p>Digital-Chief-of-Staff-Installer.dmg — open, then double-click Install.</p>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#">
+        <span class="brand-mark">D</span>
+        Digital Chief of Staff
+      </a>
+      <div class="nav-links">
+        <a href="#why">Why DCOS</a>
+        <a href="#personas">Personas</a>
+        <a href="#compare">Compare</a>
+        <a href="#download" class="btn-nav">Get started</a>
       </div>
-      <a class="btn mac loading" id="btn-dmg" href="#" download>Download</a>
-    </article>
-    <article class="card">
-      <div class="card-icon win" aria-hidden="true">&#8862;</div>
-      <div class="card-body">
-        <h2>Windows</h2>
-        <p>Digital-Chief-of-Staff-Setup.exe — run the setup wizard.</p>
-      </div>
-      <a class="btn win loading" id="btn-exe" href="#" download>Download</a>
-    </article>
-    <article class="card">
-      <div class="card-icon claude" aria-hidden="true">C</div>
-      <div class="card-body">
-        <h2>Claude Desktop only</h2>
-        <p>digital-chief-of-staff.mcpb — extension bundle if ES is already set up.</p>
-      </div>
-      <a class="btn claude loading" id="btn-mcpb" href="#" download>Download</a>
-    </article>
-  </section>
+    </nav>
 
-  <section class="steps">
-    <h3>Quick start</h3>
-    <ol>
-      <li><strong>Download</strong> the installer for your platform.</li>
-      <li><strong>Run it</strong> — Elasticsearch, Claude extension, and config are set up automatically.</li>
-      <li><strong>Salesforce</strong> — double-click <em>Login to Salesforce</em> when prompted (browser login).</li>
-      <li>In Claude, ask: <em>Run dcos_sfdc_auth_status</em></li>
-    </ol>
-  </section>
+    <header class="hero">
+      <div class="pill-row">
+        <span class="pill teal">Built for Elastic field sales</span>
+        <span class="pill">MEDDPIC-native</span>
+        <span class="pill">Claude Desktop agent</span>
+      </div>
+      <h1>
+        Your pipeline's <span class="gradient">AI Chief of Staff</span> — not another generic chatbot
+      </h1>
+      <p class="hero-lead">
+        Live Salesforce truth, Elasticsearch account memory, and persona coaching for every AE, AVP, SDR, SA, and CA.
+        One double-click install. No API keys in chat. No vendor lock-in.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" id="hero-download" href="#download">Download free →</a>
+        <a class="btn btn-ghost" href="#compare">Why not Abacus.AI?</a>
+      </div>
 
-  <footer>
-    <p>
-      Requires Node.js 18+, Claude Desktop, and network access to Elasticsearch.
-      <br />
-      <a href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">All releases</a>
-    </p>
-  </footer>
+      <div class="demo-box">
+        <div class="demo-label">Try asking Claude after install</div>
+        <div class="demo-prompt" id="demo-prompt">Produce my AVP morning brief — territory pulse, MEDDPIC gaps, and rep handoffs<span class="demo-cursor"></span></div>
+        <div class="demo-chips" id="demo-chips">
+          <button type="button" class="chip active" data-prompt="Produce my AVP morning brief — territory pulse, MEDDPIC gaps, and rep handoffs">Morning brief</button>
+          <button type="button" class="chip" data-prompt="Account prep for Acme Financial — decision criteria, competitors, and talk track">Account prep</button>
+          <button type="button" class="chip" data-prompt="MEDDPIC scorecard for my top 3 opportunities closing this quarter">Deal coaching</button>
+          <button type="button" class="chip" data-prompt="SDR prospecting brief — trigger events and outbound hooks this week">SDR triggers</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><strong>5</strong><span>Sales personas built in</span></div>
+      <div class="stat"><strong>1‑click</strong><span>macOS + Windows install</span></div>
+      <div class="stat"><strong>0</strong><span>SF API keys in Claude UI</span></div>
+      <div class="stat"><strong>100%</strong><span>Your stack, your data</span></div>
+    </div>
+
+    <section id="why">
+      <div class="section-head">
+        <h2>Purpose-built for revenue teams</h2>
+        <p>Generic AI platforms answer anything. DCOS answers the questions that win deals.</p>
+      </div>
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Live Salesforce pipeline</h3>
+          <p>Browser login — same SSO you use today. SOQL, open opps, account context synced to search. Never hallucinate ACV or stage.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🔍</div>
+          <h3>Elasticsearch account memory</h3>
+          <p>Notes, signals, activities, and opportunities indexed on your cluster. Briefs get smarter every call.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>MEDDPIC coaching</h3>
+          <p>Scorecards, discovery questions, and talk tracks grounded in methodology — not generic “sales tips.”</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🌐</div>
+          <h3>External intelligence</h3>
+          <p>Jina web research for news, earnings, and competitive signals — woven into account prep automatically.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">👥</div>
+          <h3>Persona subagents</h3>
+          <p>AVP rollups, AE deal coach, SDR prospecting, SA technical briefs, CA expansion — each with the right lens.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🔐</div>
+          <h3>Field-first deployment</h3>
+          <p>Native Elasticsearch on the laptop or Elastic Cloud. DMG, Setup.exe, Claude extension — no Kubernetes required.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="personas">
+      <div class="section-head">
+        <h2>One agent, every role on the team</h2>
+        <p>Install once, pick your persona — briefs and coaching adapt to how you sell.</p>
+      </div>
+      <div class="persona-tabs" id="persona-tabs">
+        <button type="button" class="persona-tab active" data-persona="avp">AVP / Leader</button>
+        <button type="button" class="persona-tab" data-persona="ae">Account Executive</button>
+        <button type="button" class="persona-tab" data-persona="sdr">SDR</button>
+        <button type="button" class="persona-tab" data-persona="sa">Solution Architect</button>
+        <button type="button" class="persona-tab" data-persona="ca">Customer Advocate</button>
+      </div>
+      <div class="persona-panel active" data-panel="avp">
+        <div class="role">Area VP · Territory pulse</div>
+        <h3>Leadership briefs that drive action</h3>
+        <p>Roll up MEDDPIC health across your patch, surface 🔴 deals, and end with one high-impact action per rep.</p>
+        <ul>
+          <li>Account heat map by weakest MEDDPIC letter</li>
+          <li>3 talking points for your next leadership meeting</li>
+          <li>Coaching themes — not another dashboard</li>
+        </ul>
+      </div>
+      <div class="persona-panel" data-panel="ae">
+        <div class="role">Account Executive · Deal coach</div>
+        <h3>Walk into every call prepared</h3>
+        <p>Scorecard, talk track, and next action from live CRM + indexed history — junior AE outcomes, senior AE polish.</p>
+        <ul>
+          <li>MEDDPIC gap analysis per opportunity</li>
+          <li>Discovery questions tied to stage</li>
+          <li>Competitive positioning from your watchlist</li>
+        </ul>
+      </div>
+      <div class="persona-panel" data-panel="sdr">
+        <div class="role">SDR · Prospecting intelligence</div>
+        <h3>Outbound with trigger events</h3>
+        <p>Rank accounts by signal strength, draft personalized hooks, pre-qualify I, M, C — without claiming EB access.</p>
+      </div>
+      <div class="persona-panel" data-panel="sa">
+        <div class="role">Solution Architect · Technical brief</div>
+        <h3>Win technical evals</h3>
+        <p>Decision criteria matrix, PoC plans, architecture talking points, and blocker resolution for eval-stage deals.</p>
+      </div>
+      <div class="persona-panel" data-panel="ca">
+        <div class="role">Customer Advocate · Expansion</div>
+        <h3>Grow and protect customers</h3>
+        <p>Health signals, expansion plays, advocacy opportunities — grounded in customer status and usage context.</p>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="section-head">
+        <h2>DCOS vs. generic AI platforms</h2>
+        <p>When the job is <em>win Elastic deals</em>, purpose beats platform.</p>
+      </div>
+      <div class="compare">
+        <table>
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Digital Chief of Staff</th>
+              <th>Generic AI platform</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Salesforce / CRM</td>
+              <td class="win">Native — live SOQL, browser login, sync</td>
+              <td class="them">Generic connector (#100 of 100+)</td>
+            </tr>
+            <tr>
+              <td>Deal methodology</td>
+              <td class="win">MEDDPIC + persona agents built in</td>
+              <td class="them">Configure your own prompts</td>
+            </tr>
+            <tr>
+              <td>Account memory</td>
+              <td class="win">Elasticsearch — your indices, your rules</td>
+              <td class="them">Vendor RAG black box</td>
+            </tr>
+            <tr>
+              <td>Time to first sales brief</td>
+              <td class="win">Same day — installer + Claude</td>
+              <td class="them">Weeks of platform tuning</td>
+            </tr>
+            <tr>
+              <td>Ownership</td>
+              <td class="win">Open source, field releases, no seat tax</td>
+              <td class="them">Vendor subscription + lock-in</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="section-head">
+        <h2>Install in minutes</h2>
+        <p>Elasticsearch, Claude extension, role setup, and Salesforce login — one workflow.</p>
+      </div>
+      <p class="version-badge" id="version">Checking latest release…</p>
+      <div class="notice warn" id="notice" style="display:none"></div>
+      <div class="downloads">
+        <article class="dl-card">
+          <div class="dl-icon mac">&#63743;</div>
+          <div class="dl-body">
+            <h3>macOS</h3>
+            <p>Digital-Chief-of-Staff-Installer.dmg</p>
+          </div>
+          <a class="btn-dl mac loading" id="btn-dmg" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+        </article>
+        <article class="dl-card">
+          <div class="dl-icon win">&#8862;</div>
+          <div class="dl-body">
+            <h3>Windows</h3>
+            <p>Digital-Chief-of-Staff-Setup.exe</p>
+          </div>
+          <a class="btn-dl win loading" id="btn-exe" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+        </article>
+        <article class="dl-card">
+          <div class="dl-icon claude">C</div>
+          <div class="dl-body">
+            <h3>Claude Desktop only</h3>
+            <p>digital-chief-of-staff.mcpb extension</p>
+          </div>
+          <a class="btn-dl claude loading" id="btn-mcpb" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Four steps to your first brief</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Download & install</h4>
+          <p>Double-click the installer — ES, indices, and Claude extension configured automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Pick your role</h4>
+          <p>AE, AVP, SA, SDR, or CA — plus the accounts on your watchlist.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Login to Salesforce</h4>
+          <p>Browser SSO — no tokens pasted into AI settings.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Ask Claude</h4>
+          <p><em>“Produce my morning brief”</em> — grounded in CRM, not guesswork.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Digital Chief of Staff · Elastic field enablement · Claude Desktop + Elasticsearch + Salesforce<br />
+        <a href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">All releases</a>
+        · Requires Node.js 18+ and Claude Desktop
+      </p>
+    </footer>
+  </div>
 
   <script>
     const REPO = "poulsbopete/digital-chief-of-staff-releases";
+    const RELEASES_URL = `https://github.com/${REPO}/releases`;
+
+    // Demo chips
+    document.getElementById("demo-chips").addEventListener("click", (e) => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+      document.getElementById("demo-prompt").innerHTML =
+        chip.dataset.prompt + '<span class="demo-cursor"></span>';
+    });
+
+    // Persona tabs
+    document.getElementById("persona-tabs").addEventListener("click", (e) => {
+      const tab = e.target.closest(".persona-tab");
+      if (!tab) return;
+      const id = tab.dataset.persona;
+      document.querySelectorAll(".persona-tab").forEach((t) => t.classList.remove("active"));
+      document.querySelectorAll(".persona-panel").forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelector(`[data-panel="${id}"]`)?.classList.add("active");
+    });
 
     function assetUrl(assets, pattern) {
-      const a = assets.find((x) => pattern.test(x.name));
-      return a ? a.browser_download_url : null;
+      return assets.find((x) => pattern.test(x.name))?.browser_download_url || null;
     }
 
-    function setBtn(id, url) {
+    function enableBtn(id, url) {
       const el = document.getElementById(id);
-      if (!url) {
-        el.textContent = "Not found";
-        el.classList.add("loading");
-        return;
-      }
+      if (!url) return;
       el.href = url;
       el.classList.remove("loading");
     }
 
-    function showError(msg) {
-      const el = document.getElementById("error");
-      el.textContent = msg;
-      el.classList.add("visible");
-    }
-
     async function loadRelease() {
+      const versionEl = document.getElementById("version");
+      const noticeEl = document.getElementById("notice");
+
       try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
-        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-        const data = await res.json();
-        const assets = data.assets || [];
-
-        document.getElementById("version").textContent = `${data.tag_name || data.name} · ${new Date(data.published_at).toLocaleDateString()}`;
-
-        setBtn("btn-dmg", assetUrl(assets, /\.dmg$/i));
-        setBtn("btn-exe", assetUrl(assets, /\.exe$/i));
-        setBtn("btn-mcpb", assetUrl(assets, /\.mcpb$/i));
-
-        if (!assets.length) {
-          showError("No release assets yet. Check back after the first tagged release is published.");
+        let data;
+        const latest = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+        if (latest.ok) {
+          data = await latest.json();
+        } else {
+          const all = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=1`);
+          if (!all.ok) throw new Error("No releases");
+          const list = await all.json();
+          data = list[0];
         }
-      } catch (e) {
-        document.getElementById("version").textContent = "Release unavailable";
-        showError("Could not load downloads. Try the GitHub Releases page directly.");
-        ["btn-dmg", "btn-exe", "btn-mcpb"].forEach((id) => {
-          document.getElementById(id).textContent = "Unavailable";
-        });
+
+        if (!data || !data.assets?.length) {
+          versionEl.innerHTML = 'Release building — check <a href="' + RELEASES_URL + '" style="color:var(--teal)">GitHub Releases</a>';
+          noticeEl.style.display = "block";
+          noticeEl.textContent = "Installers publish automatically when CI completes (tag v0.1.4+). Links below go to Releases.";
+          document.querySelectorAll(".btn-dl").forEach((b) => b.classList.remove("loading"));
+          return;
+        }
+
+        const assets = data.assets;
+        const date = data.published_at ? new Date(data.published_at).toLocaleDateString() : "";
+        versionEl.innerHTML = `<strong>${data.tag_name || data.name}</strong>${date ? " · " + date : ""} · ready to install`;
+
+        enableBtn("btn-dmg", assetUrl(assets, /\.dmg$/i));
+        enableBtn("btn-exe", assetUrl(assets, /\.exe$/i));
+        enableBtn("btn-mcpb", assetUrl(assets, /\.mcpb$/i));
+
+        const dmg = assetUrl(assets, /\.dmg$/i);
+        if (dmg) document.getElementById("hero-download").href = dmg;
+      } catch {
+        versionEl.innerHTML = 'Downloads on <a href="' + RELEASES_URL + '" style="color:var(--teal)">GitHub Releases</a>';
+        noticeEl.style.display = "block";
+        noticeEl.textContent = "Could not reach GitHub API — use the Releases page directly.";
+        document.querySelectorAll(".btn-dl").forEach((b) => b.classList.remove("loading"));
       }
     }
 
