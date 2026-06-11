@@ -96,16 +96,15 @@
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      overflow-x: auto;
+      padding: 0.75rem;
+      overflow: hidden;
       margin: 1.25rem 0 1.5rem;
     }
-    .diagram pre {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.72rem;
-      line-height: 1.45;
-      color: #c8d0dc;
-      white-space: pre;
+    .diagram svg,
+    .diagram img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
     .layer-grid {
       display: grid;
@@ -181,7 +180,6 @@
     footer a { color: var(--teal); text-decoration: none; }
     @media (max-width: 720px) {
       .nav-links a:not(.btn-nav):not(.active) { display: none; }
-      .diagram pre { font-size: 0.62rem; }
     }
   </style>
 </head>
@@ -214,24 +212,8 @@
 
     <article>
       <h2>High-level view</h2>
-      <div class="diagram" role="img" aria-label="Architecture diagram">
-        <pre>┌────────────────────────────────────────────────────────────────────┐
-│              Claude Desktop  ·  Cursor  ·  Scheduled Routine        │
-│     Project instructions  →  persona lens (AVP / AE / SDR / SA / CA) │
-└───────┬──────────────┬─────────────────┬─────────────────────────────┘
-        │              │                 │
-┌───────▼──────┐ ┌─────▼─────┐ ┌─────────▼─────────┐ ┌───────▼───────┐
-│  DCOS MCP    │ │ Salesforce │ │  Connectors       │ │   Jina MCP    │
-│  dcos_*      │ │ live SOQL  │ │  Slack, KB, APIs  │ │  web search   │
-│  ES search   │ │ + sync     │ │  (optional)       │ │  read_url     │
-└───────┬──────┘ └────────────┘ └───────────────────┘ └───────────────┘
-        │
-        ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│  Elasticsearch  —  dcos_notes · dcos_opportunities ·                  │
-│                      dcos_activities · dcos_signals                   │
-│  Local (127.0.0.1:9200)  or  Elastic Cloud Serverless                 │
-└───────────────────────────────────────────────────────────────────────┘</pre>
+      <div class="diagram">
+        <img src="architecture-diagram.svg" width="920" height="560" alt="Architecture diagram: Claude Desktop connects to DCOS MCP, Jina MCP, Salesforce, and optional connectors, with Elasticsearch as the data layer." />
       </div>
       <p>
         Nothing in this diagram runs as a multi-tenant SaaS. The rep's laptop (or their Cloud project)

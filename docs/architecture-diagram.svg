@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="archTitle archDesc">
+  <title id="archTitle">Digital Chief of Staff architecture</title>
+  <desc id="archDesc">Claude Desktop orchestrates DCOS and Jina MCP servers connected to Salesforce, connectors, and Elasticsearch.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c1018"/>
+      <stop offset="100%" stop-color="#06080c"/>
+    </linearGradient>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a1530"/>
+      <stop offset="100%" stop-color="#121824"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#143530"/>
+      <stop offset="100%" stop-color="#0f2420"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a2210"/>
+      <stop offset="100%" stop-color="#1a1608"/>
+    </linearGradient>
+    <linearGradient id="esGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f2820"/>
+      <stop offset="100%" stop-color="#0c1018"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#3d4a5c"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#00bfb3"/>
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect width="920" height="560" rx="16" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- connector lines (behind boxes) -->
+  <g stroke="#3d4a5c" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+    <path d="M460 108 L140 168"/>
+    <path d="M460 108 L340 168"/>
+    <path d="M460 108 L580 168"/>
+    <path d="M460 108 L780 168"/>
+  </g>
+  <path d="M140 268 L460 328" stroke="#00bfb3" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" opacity="0.85"/>
+
+  <!-- client layer -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="28" width="840" height="80" rx="12" fill="url(#clientGrad)" stroke="rgba(124,92,255,0.45)" stroke-width="1.5"/>
+  </g>
+  <text x="460" y="58" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="15" font-weight="600">Claude Desktop · Cursor · Scheduled Routine</text>
+  <text x="460" y="82" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12">Project instructions</text>
+  <text x="548" y="82" text-anchor="start" fill="#7c5cff" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="600">’</text>
+  <text x="562" y="82" text-anchor="start" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12">persona lens (AVP · AE · SDR · SA · CA)</text>
+
+  <!-- DCOS MCP -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="168" width="200" height="100" rx="12" fill="url(#tealGrad)" stroke="rgba(0,191,179,0.55)" stroke-width="1.5"/>
+  </g>
+  <rect x="52" y="180" width="52" height="18" rx="9" fill="rgba(0,191,179,0.18)" stroke="rgba(0,191,179,0.35)" stroke-width="1"/>
+  <text x="78" y="193" text-anchor="middle" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">MCP</text>
+  <text x="140" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">DCOS MCP</text>
+  <text x="140" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Mono, monospace" font-size="11">dcos_* · ES search</text>
+  <text x="140" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">Salesforce sync · connectors</text>
+
+  <!-- Salesforce -->
+  <g filter="url(#shadow)">
+    <rect x="260" y="168" width="160" height="100" rx="12" fill="url(#goldGrad)" stroke="rgba(245,166,35,0.45)" stroke-width="1.5"/>
+  </g>
+  <rect x="272" y="180" width="72" height="18" rx="9" fill="rgba(245,166,35,0.15)" stroke="rgba(245,166,35,0.35)" stroke-width="1"/>
+  <text x="308" y="193" text-anchor="middle" fill="#f5a623" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">CRM</text>
+  <text x="340" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Salesforce</text>
+  <text x="340" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">live SOQL</text>
+  <text x="340" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">browser SSO · sf CLI</text>
+
+  <!-- Connectors -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="168" width="160" height="100" rx="12" fill="#121824" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  </g>
+  <rect x="452" y="180" width="64" height="18" rx="9" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="484" y="193" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">OPTIONAL</text>
+  <text x="520" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Connectors</text>
+  <text x="520" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">Slack · KB · APIs</text>
+  <text x="520" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">connectors.yaml</text>
+
+  <!-- Jina MCP -->
+  <g filter="url(#shadow)">
+    <rect x="620" y="168" width="260" height="100" rx="12" fill="url(#tealGrad)" stroke="rgba(0,191,179,0.35)" stroke-width="1.5"/>
+  </g>
+  <rect x="632" y="180" width="52" height="18" rx="9" fill="rgba(0,191,179,0.18)" stroke="rgba(0,191,179,0.35)" stroke-width="1"/>
+  <text x="658" y="193" text-anchor="middle" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">MCP</text>
+  <text x="750" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Jina MCP</text>
+  <text x="750" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">web search · read_url</text>
+  <text x="750" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">news · earnings · competitive intel</text>
+
+  <!-- Elasticsearch -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="328" width="840" height="112" rx="12" fill="url(#esGrad)" stroke="rgba(61,214,140,0.45)" stroke-width="1.5"/>
+  </g>
+  <rect x="52" y="340" width="96" height="18" rx="9" fill="rgba(61,214,140,0.15)" stroke="rgba(61,214,140,0.35)" stroke-width="1"/>
+  <text x="100" y="353" text-anchor="middle" fill="#3dd68c" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">DATA LAYER</text>
+  <text x="460" y="374" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="16" font-weight="600">Elasticsearch</text>
+  <text x="460" y="398" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Mono, monospace" font-size="12">dcos_notes · dcos_opportunities · dcos_activities · dcos_signals</text>
+  <text x="460" y="422" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">Local (127.0.0.1:9200)  or  Elastic Cloud Serverless</text>
+
+  <!-- index pills -->
+  <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#c8d0dc">
+    <rect x="148" y="438" width="92" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
+    <text x="194" y="454" text-anchor="middle">dcos_notes</text>
+    <rect x="252" y="438" width="128" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
+    <text x="316" y="454" text-anchor="middle">dcos_opportunities</text>
+    <rect x="392" y="438" width="112" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
+    <text x="448" y="454" text-anchor="middle">dcos_activities</text>
+    <rect x="516" y="438" width="100" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
+    <text x="566" y="454" text-anchor="middle">dcos_signals</text>
+  </g>
+
+  <!-- legend -->
+  <text x="40" y="520" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">MCP tools run locally on the rep's machine  credentials in ~/.config/dcos/</text>
+  <circle cx="720" cy="514" r="4" fill="#00bfb3"/>
+  <text x="732" y="518" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">primary data path</text>
+</svg>
