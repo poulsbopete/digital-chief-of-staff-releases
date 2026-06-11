@@ -92,19 +92,180 @@
     article p, article li { color: var(--muted); margin-bottom: 0.75rem; }
     article ul, article ol { margin: 0.5rem 0 1rem 1.25rem; }
     article li { margin-bottom: 0.4rem; }
-    .diagram {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
+    .arch-diagram {
+      position: relative;
+      padding: 1.5rem 1.25rem 1.15rem;
+      background: linear-gradient(165deg, #0c1018 0%, #06080c 100%);
       border-radius: var(--radius);
-      padding: 0.75rem;
-      overflow: hidden;
+      border: 1px solid var(--border);
       margin: 1.25rem 0 1.5rem;
     }
-    .diagram svg,
-    .diagram img {
+    .arch-box {
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+    .arch-box strong {
       display: block;
-      width: 100%;
-      height: auto;
+      color: var(--text);
+      font-size: 0.92rem;
+      margin-bottom: 0.35rem;
+    }
+    .arch-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    .arch-box .arch-tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+    .arch-client {
+      border: 1.5px solid rgba(124, 92, 255, 0.45);
+      background: linear-gradient(90deg, rgba(26, 21, 48, 0.95), rgba(18, 24, 36, 0.95));
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      margin-bottom: 1.75rem;
+    }
+    .arch-client .arch-tag { color: var(--violet); background: rgba(124, 92, 255, 0.12); border: 1px solid rgba(124, 92, 255, 0.3); }
+    .arch-client strong { font-size: 1rem; }
+    .arch-client .arch-arrow { color: var(--violet); font-weight: 700; }
+    .arch-client .arch-highlight { color: var(--teal); }
+    .arch-client::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -1.75rem;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 1.75rem;
+      background: linear-gradient(#3d4a5c, #3d4a5c);
+    }
+    .arch-mid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      margin-bottom: 1.75rem;
+      position: relative;
+    }
+    .arch-mid::before {
+      content: "";
+      position: absolute;
+      top: -0.9rem;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: #3d4a5c;
+    }
+    .arch-mid .arch-box::before {
+      content: "";
+      position: absolute;
+      top: -0.9rem;
+      left: 50%;
+      width: 2px;
+      height: 0.9rem;
+      background: #3d4a5c;
+      transform: translateX(-50%);
+    }
+    .arch-dcos {
+      border: 1.5px solid rgba(0, 191, 179, 0.55);
+      background: linear-gradient(180deg, rgba(20, 53, 48, 0.9), rgba(15, 36, 32, 0.95));
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    }
+    .arch-dcos .arch-tag { color: var(--teal); background: rgba(0, 191, 179, 0.12); border: 1px solid rgba(0, 191, 179, 0.3); }
+    .arch-dcos::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -1.75rem;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 1.75rem;
+      background: var(--teal);
+      opacity: 0.85;
+    }
+    .arch-sfdc {
+      border: 1.5px solid rgba(245, 166, 35, 0.45);
+      background: linear-gradient(180deg, rgba(42, 34, 16, 0.9), rgba(26, 22, 8, 0.95));
+    }
+    .arch-sfdc .arch-tag { color: var(--gold); background: rgba(245, 166, 35, 0.12); border: 1px solid rgba(245, 166, 35, 0.3); }
+    .arch-conn {
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      background: var(--surface);
+    }
+    .arch-conn .arch-tag { color: var(--muted); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .arch-jina {
+      border: 1.5px solid rgba(0, 191, 179, 0.35);
+      background: linear-gradient(180deg, rgba(20, 53, 48, 0.75), rgba(15, 36, 32, 0.85));
+    }
+    .arch-jina .arch-tag { color: var(--teal); background: rgba(0, 191, 179, 0.12); border: 1px solid rgba(0, 191, 179, 0.3); }
+    .arch-data {
+      border: 1.5px solid rgba(61, 214, 140, 0.45);
+      background: linear-gradient(90deg, rgba(15, 40, 32, 0.95), rgba(12, 16, 24, 0.95));
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      padding: 1.15rem 1rem 1rem;
+    }
+    .arch-data .arch-tag { color: var(--green); background: rgba(61, 214, 140, 0.12); border: 1px solid rgba(61, 214, 140, 0.3); }
+    .arch-data strong { font-size: 1.05rem; }
+    .arch-data .arch-indices {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+    .arch-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-top: 0.75rem;
+    }
+    .arch-pills span {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      color: #c8d0dc;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .arch-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--dim);
+    }
+    .arch-foot .arch-path {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--muted);
+    }
+    .arch-foot .arch-path i {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    @media (max-width: 760px) {
+      .arch-mid { grid-template-columns: repeat(2, 1fr); }
+      .arch-mid::before { display: none; }
+      .arch-mid .arch-box::before { display: none; }
+      .arch-client::after, .arch-dcos::after { display: none; }
     }
     .layer-grid {
       display: grid;
@@ -212,121 +373,54 @@
 
     <article>
       <h2>High-level view</h2>
-      <div class="diagram" role="img" aria-label="Architecture diagram: Claude Desktop connects to DCOS MCP, Jina MCP, Salesforce, and optional connectors, with Elasticsearch as the data layer.">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="archTitle archDesc">
-  <title id="archTitle">Digital Chief of Staff architecture</title>
-  <desc id="archDesc">Claude Desktop orchestrates DCOS and Jina MCP servers connected to Salesforce, connectors, and Elasticsearch.</desc>
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0c1018"/>
-      <stop offset="100%" stop-color="#06080c"/>
-    </linearGradient>
-    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1a1530"/>
-      <stop offset="100%" stop-color="#121824"/>
-    </linearGradient>
-    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#143530"/>
-      <stop offset="100%" stop-color="#0f2420"/>
-    </linearGradient>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2a2210"/>
-      <stop offset="100%" stop-color="#1a1608"/>
-    </linearGradient>
-    <linearGradient id="esGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0f2820"/>
-      <stop offset="100%" stop-color="#0c1018"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.45"/>
-    </filter>
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#3d4a5c"/>
-    </marker>
-    <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#00bfb3"/>
-    </marker>
-  </defs>
-
-  <rect width="920" height="560" rx="16" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-
-  <g stroke="#3d4a5c" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
-    <path d="M460 108 L140 168"/>
-    <path d="M460 108 L340 168"/>
-    <path d="M460 108 L580 168"/>
-    <path d="M460 108 L780 168"/>
-  </g>
-  <path d="M140 268 L460 328" stroke="#00bfb3" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" opacity="0.85"/>
-
-  <g filter="url(#shadow)">
-    <rect x="40" y="28" width="840" height="80" rx="12" fill="url(#clientGrad)" stroke="rgba(124,92,255,0.45)" stroke-width="1.5"/>
-  </g>
-  <text x="460" y="58" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="15" font-weight="600">Claude Desktop &#183; Cursor &#183; Scheduled Routine</text>
-  <text x="460" y="82" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12">Project instructions</text>
-  <text x="548" y="82" text-anchor="start" fill="#7c5cff" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="600">&#8594;</text>
-  <text x="562" y="82" text-anchor="start" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12">persona lens (AVP &#183; AE &#183; SDR &#183; SA &#183; CA)</text>
-
-  <g filter="url(#shadow)">
-    <rect x="40" y="168" width="200" height="100" rx="12" fill="url(#tealGrad)" stroke="rgba(0,191,179,0.55)" stroke-width="1.5"/>
-  </g>
-  <rect x="52" y="180" width="52" height="18" rx="9" fill="rgba(0,191,179,0.18)" stroke="rgba(0,191,179,0.35)" stroke-width="1"/>
-  <text x="78" y="193" text-anchor="middle" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">MCP</text>
-  <text x="140" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">DCOS MCP</text>
-  <text x="140" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Mono, monospace" font-size="11">dcos_* &#183; ES search</text>
-  <text x="140" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">Salesforce sync &#183; connectors</text>
-
-  <g filter="url(#shadow)">
-    <rect x="260" y="168" width="160" height="100" rx="12" fill="url(#goldGrad)" stroke="rgba(245,166,35,0.45)" stroke-width="1.5"/>
-  </g>
-  <rect x="272" y="180" width="72" height="18" rx="9" fill="rgba(245,166,35,0.15)" stroke="rgba(245,166,35,0.35)" stroke-width="1"/>
-  <text x="308" y="193" text-anchor="middle" fill="#f5a623" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">CRM</text>
-  <text x="340" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Salesforce</text>
-  <text x="340" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">live SOQL</text>
-  <text x="340" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">browser SSO &#183; sf CLI</text>
-
-  <g filter="url(#shadow)">
-    <rect x="440" y="168" width="160" height="100" rx="12" fill="#121824" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-  </g>
-  <rect x="452" y="180" width="64" height="18" rx="9" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-  <text x="484" y="193" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">OPTIONAL</text>
-  <text x="520" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Connectors</text>
-  <text x="520" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">Slack &#183; KB &#183; APIs</text>
-  <text x="520" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">connectors.yaml</text>
-
-  <g filter="url(#shadow)">
-    <rect x="620" y="168" width="260" height="100" rx="12" fill="url(#tealGrad)" stroke="rgba(0,191,179,0.35)" stroke-width="1.5"/>
-  </g>
-  <rect x="632" y="180" width="52" height="18" rx="9" fill="rgba(0,191,179,0.18)" stroke="rgba(0,191,179,0.35)" stroke-width="1"/>
-  <text x="658" y="193" text-anchor="middle" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">MCP</text>
-  <text x="750" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Jina MCP</text>
-  <text x="750" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">web search &#183; read_url</text>
-  <text x="750" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">news &#183; earnings &#183; competitive intel</text>
-
-  <g filter="url(#shadow)">
-    <rect x="40" y="328" width="840" height="112" rx="12" fill="url(#esGrad)" stroke="rgba(61,214,140,0.45)" stroke-width="1.5"/>
-  </g>
-  <rect x="52" y="340" width="96" height="18" rx="9" fill="rgba(61,214,140,0.15)" stroke="rgba(61,214,140,0.35)" stroke-width="1"/>
-  <text x="100" y="353" text-anchor="middle" fill="#3dd68c" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">DATA LAYER</text>
-  <text x="460" y="374" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="16" font-weight="600">Elasticsearch</text>
-  <text x="460" y="398" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Mono, monospace" font-size="12">dcos_notes &#183; dcos_opportunities &#183; dcos_activities &#183; dcos_signals</text>
-  <text x="460" y="422" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">Local (127.0.0.1:9200) or Elastic Cloud Serverless</text>
-
-  <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#c8d0dc">
-    <rect x="148" y="438" width="92" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
-    <text x="194" y="454" text-anchor="middle">dcos_notes</text>
-    <rect x="252" y="438" width="128" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
-    <text x="316" y="454" text-anchor="middle">dcos_opportunities</text>
-    <rect x="392" y="438" width="112" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
-    <text x="448" y="454" text-anchor="middle">dcos_activities</text>
-    <rect x="516" y="438" width="100" height="24" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)"/>
-    <text x="566" y="454" text-anchor="middle">dcos_signals</text>
-  </g>
-
-  <text x="40" y="520" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">MCP tools run locally on the rep machine &#8212; credentials in ~/.config/dcos/</text>
-  <circle cx="720" cy="514" r="4" fill="#00bfb3"/>
-  <text x="732" y="518" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">primary data path</text>
-</svg>
-      </div>
+      <div class="arch-diagram" aria-label="Architecture diagram: Claude Desktop connects to DCOS MCP, Jina MCP, Salesforce, and optional connectors, with Elasticsearch as the data layer.">
+        <div class="arch-box arch-client">
+          <span class="arch-tag">Client</span>
+          <strong>Claude Desktop &middot; Cursor &middot; Scheduled Routine</strong>
+          <span>Project instructions <span class="arch-arrow">&rarr;</span> <span class="arch-highlight">persona lens (AVP &middot; AE &middot; SDR &middot; SA &middot; CA)</span></span>
+        </div>
+        <div class="arch-mid">
+          <div class="arch-box arch-dcos">
+            <span class="arch-tag">MCP</span>
+            <strong>DCOS MCP</strong>
+            <span><code>dcos_*</code> &middot; ES search</span>
+            <span>Salesforce sync &middot; connectors</span>
+          </div>
+          <div class="arch-box arch-sfdc">
+            <span class="arch-tag">CRM</span>
+            <strong>Salesforce</strong>
+            <span>live SOQL</span>
+            <span>browser SSO &middot; sf CLI</span>
+          </div>
+          <div class="arch-box arch-conn">
+            <span class="arch-tag">Optional</span>
+            <strong>Connectors</strong>
+            <span>Slack &middot; KB &middot; APIs</span>
+            <span><code>connectors.yaml</code></span>
+          </div>
+          <div class="arch-box arch-jina">
+            <span class="arch-tag">MCP</span>
+            <strong>Jina MCP</strong>
+            <span>web search &middot; read_url</span>
+            <span>news &middot; earnings &middot; competitive intel</span>
+          </div>
+        </div>
+        <div class="arch-box arch-data">
+          <span class="arch-tag">Data layer</span>
+          <strong>Elasticsearch</strong>
+          <div class="arch-indices">Local (127.0.0.1:9200) or Elastic Cloud Serverless</div>
+          <div class="arch-pills">
+            <span>dcos_notes</span>
+            <span>dcos_opportunities</span>
+            <span>dcos_activities</span>
+            <span>dcos_signals</span>
+          </div>
+          <div class="arch-foot">
+            <span>MCP tools run locally on the rep machine &mdash; credentials in <code>~/.config/dcos/</code></span>
+            <span class="arch-path"><i aria-hidden="true"></i> primary data path (DCOS &rarr; ES)</span>
+          </div>
+        </div>
+      </div>      </div>
       <p>
         Nothing in this diagram runs as a multi-tenant SaaS. The rep's laptop (or their Cloud project)
         holds credentials and indices; Claude calls tools over MCP when a session is active.
