@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Architecture — Digital Chief of Staff</title>
+  <meta name="description" content="How Digital Chief of Staff connects Claude Desktop, DCOS MCP, Jina, Salesforce, and Elasticsearch for MEDDPIC-grounded sales briefs." />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #06080c;
+      --bg-elevated: #0c1018;
+      --surface: #121824;
+      --surface-hover: #1a2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4f6f9;
+      --muted: #8b95a8;
+      --dim: #5c6578;
+      --teal: #00bfb3;
+      --teal-glow: rgba(0, 191, 179, 0.35);
+      --violet: #7c5cff;
+      --green: #3dd68c;
+      --gold: #f5a623;
+      --radius: 14px;
+      --max: 900px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+      pointer-events: none; z-index: 0;
+    }
+    .bg-glow {
+      position: fixed; width: 700px; height: 500px; top: -150px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, var(--teal-glow), transparent 70%);
+      opacity: 0.4; pointer-events: none; z-index: 0;
+    }
+    .wrap { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 0 1.5rem 4rem; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.05rem;
+    }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 11px;
+      flex-shrink: 0; display: block;
+      box-shadow: 0 4px 16px rgba(0, 191, 179, 0.2);
+    }
+    .nav-links { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .btn-nav {
+      background: var(--teal) !important; color: #041010 !important;
+      padding: 0.55rem 1.1rem !important; border-radius: 999px !important; font-weight: 600 !important;
+    }
+    .pill {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      padding: 0.35rem 0.75rem; border-radius: 999px;
+      background: rgba(0,191,179,0.12); color: var(--teal);
+      border: 1px solid rgba(0,191,179,0.3); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    .lead { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
+    article { margin: 2.5rem 0; }
+    article h2 {
+      font-size: 1.35rem; letter-spacing: -0.02em;
+      margin-bottom: 0.75rem; padding-top: 0.5rem;
+    }
+    article h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
+    article p, article li { color: var(--muted); margin-bottom: 0.75rem; }
+    article ul, article ol { margin: 0.5rem 0 1rem 1.25rem; }
+    article li { margin-bottom: 0.4rem; }
+    .diagram {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin: 1.25rem 0 1.5rem;
+    }
+    .diagram pre {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: #c8d0dc;
+      white-space: pre;
+    }
+    .layer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+      margin: 1.25rem 0 1.5rem;
+    }
+    .layer-card {
+      padding: 1.15rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .layer-card:hover { border-color: rgba(0,191,179,0.25); background: var(--surface-hover); }
+    .layer-tag {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .layer-tag.client { color: var(--violet); }
+    .layer-tag.mcp { color: var(--teal); }
+    .layer-tag.data { color: var(--green); }
+    .layer-tag.external { color: var(--gold); }
+    .layer-card h3 { font-size: 0.95rem; margin: 0 0 0.35rem; color: var(--text); }
+    .layer-card p { font-size: 0.85rem; margin: 0; color: var(--muted); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 0.88rem;
+      margin: 1rem 0 1.5rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    }
+    th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th {
+      background: rgba(0,0,0,0.25); color: var(--dim); font-weight: 600;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--text); font-weight: 500; }
+    .flow {
+      counter-reset: flow;
+      list-style: none; margin: 1rem 0; padding: 0;
+    }
+    .flow li {
+      counter-increment: flow; position: relative;
+      padding: 1rem 1.15rem 1rem 3.25rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 0.65rem;
+      color: var(--muted); font-size: 0.92rem;
+    }
+    .flow li::before {
+      content: counter(flow);
+      position: absolute; left: 1rem; top: 1rem;
+      width: 1.6rem; height: 1.6rem; border-radius: 8px;
+      background: rgba(0,191,179,0.15); color: var(--teal);
+      font-weight: 700; font-size: 0.8rem;
+      display: grid; place-items: center;
+    }
+    .flow li strong { color: var(--text); }
+    code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.88em; color: var(--teal);
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .callout {
+      padding: 1.15rem 1.35rem; border-radius: var(--radius);
+      background: rgba(0,191,179,0.08); border: 1px solid rgba(0,191,179,0.25);
+      margin: 1.5rem 0; font-size: 0.95rem; color: var(--muted);
+    }
+    .callout strong { color: var(--teal); }
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem;
+      text-align: center; color: var(--dim); font-size: 0.82rem;
+    }
+    footer a { color: var(--teal); text-decoration: none; }
+    @media (max-width: 720px) {
+      .nav-links a:not(.btn-nav):not(.active) { display: none; }
+      .diagram pre { font-size: 0.62rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="./">
+        <img class="brand-mark" src="logo.svg" alt="" width="40" height="40" />
+        Digital Chief of Staff
+      </a>
+      <div class="nav-links">
+        <a href="./">Home</a>
+        <a href="qa.html">Q&amp;A</a>
+        <a href="architecture.html" class="active">Architecture</a>
+        <a href="example-prompts.html">Example prompts</a>
+        <a href="always-on-agent.html">Always-on agent</a>
+        <a href="./#download" class="btn-nav">Download</a>
+      </div>
+    </nav>
+
+    <span class="pill">System design</span>
+    <h1>Architecture</h1>
+    <p class="lead">
+      DCOS is a field-deployable stack: Claude Desktop orchestrates local MCP servers that read CRM truth,
+      search account memory, and research the web — then persona instructions shape the output.
+    </p>
+
+    <article>
+      <h2>High-level view</h2>
+      <div class="diagram" role="img" aria-label="Architecture diagram">
+        <pre>┌────────────────────────────────────────────────────────────────────┐
+│              Claude Desktop  ·  Cursor  ·  Scheduled Routine        │
+│     Project instructions  →  persona lens (AVP / AE / SDR / SA / CA) │
+└───────┬──────────────┬─────────────────┬─────────────────────────────┘
+        │              │                 │
+┌───────▼──────┐ ┌─────▼─────┐ ┌─────────▼─────────┐ ┌───────▼───────┐
+│  DCOS MCP    │ │ Salesforce │ │  Connectors       │ │   Jina MCP    │
+│  dcos_*      │ │ live SOQL  │ │  Slack, KB, APIs  │ │  web search   │
+│  ES search   │ │ + sync     │ │  (optional)       │ │  read_url     │
+└───────┬──────┘ └────────────┘ └───────────────────┘ └───────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│  Elasticsearch  —  dcos_notes · dcos_opportunities ·                  │
+│                      dcos_activities · dcos_signals                   │
+│  Local (127.0.0.1:9200)  or  Elastic Cloud Serverless                 │
+└───────────────────────────────────────────────────────────────────────┘</pre>
+      </div>
+      <p>
+        Nothing in this diagram runs as a multi-tenant SaaS. The rep's laptop (or their Cloud project)
+        holds credentials and indices; Claude calls tools over MCP when a session is active.
+      </p>
+    </article>
+
+    <article>
+      <h2>Components</h2>
+      <div class="layer-grid">
+        <div class="layer-card">
+          <div class="layer-tag client">Client</div>
+          <h3>Claude Desktop</h3>
+          <p>Chat UI, Cowork tasks, and scheduled Routines. Loads local <code>.mcpb</code> extensions for DCOS and Jina.</p>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag mcp">MCP</div>
+          <h3>DCOS extension</h3>
+          <p>13+ tools: Salesforce queries, ES search, note indexing, connector calls, index setup. Runs in-process via bundled Node.</p>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag mcp">MCP</div>
+          <h3>Jina extension</h3>
+          <p>Web search and URL extraction for news, earnings, competitive signals — woven into account prep and briefs.</p>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag data">Data</div>
+          <h3>Elasticsearch</h3>
+          <p>Account memory: notes, synced opps, activities, signals. Full-text search powers delta comparison across briefs.</p>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag external">External</div>
+          <h3>Salesforce</h3>
+          <p>System of record. Browser SSO via <code>sf</code> CLI — live SOQL at brief time plus optional background sync to ES.</p>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag external">Optional</div>
+          <h3>Connectors</h3>
+          <p>Pluggable internal tools in <code>connectors.yaml</code> — Slack, Elastic KB, support APIs — via <code>dcos_connector_call</code>.</p>
+        </div>
+      </div>
+    </article>
+
+    <article>
+      <h2>Morning brief data flow</h2>
+      <ol class="flow">
+        <li><strong>Load profile</strong> — <code>dcos_user_profile</code> returns persona (AVP, AE, …) and account watchlist from <code>~/.config/dcos/</code>.</li>
+        <li><strong>Refresh CRM</strong> — <code>dcos_sfdc_sync</code> pulls opportunity changes into <code>dcos_opportunities</code>.</li>
+        <li><strong>Internal context</strong> — <code>dcos_search</code> across notes, prior briefs, activities, and signals per account.</li>
+        <li><strong>External research</strong> — Jina <code>parallel_search_web</code> for trigger events, leadership changes, competitive news.</li>
+        <li><strong>Synthesize</strong> — Persona instructions format an Executive Daily Brief with MEDDPIC gaps and one action per account.</li>
+        <li><strong>Persist</strong> — <code>dcos_add_note</code> saves findings so tomorrow's brief can diff against today.</li>
+      </ol>
+      <div class="callout">
+        <strong>Design principle:</strong> CRM numbers come from tools, not from the model.
+        Instructions explicitly forbid inventing ACV, stage, or close dates.
+      </div>
+    </article>
+
+    <article>
+      <h2>Elasticsearch indices</h2>
+      <table>
+        <thead>
+          <tr><th>Index</th><th>Contents</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>dcos_notes</code></td>
+            <td>MEDDPIC notes, brief findings, rep commentary — primary memory for search</td>
+          </tr>
+          <tr>
+            <td><code>dcos_opportunities</code></td>
+            <td>Salesforce opportunities synced for full-text search and territory rollups</td>
+          </tr>
+          <tr>
+            <td><code>dcos_activities</code></td>
+            <td>Tasks, events, and activity history linked to accounts</td>
+          </tr>
+          <tr>
+            <td><code>dcos_signals</code></td>
+            <td>External and internal signals (news hooks, health indicators, expansion cues)</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article>
+      <h2>Persona routing</h2>
+      <p>
+        One install, multiple lenses. Profile + prompt choose how Claude prioritizes and formats output:
+      </p>
+      <table>
+        <thead>
+          <tr><th>Persona</th><th>Primary output</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>AVP / Leader</td><td>Territory pulse, rep handoffs, MEDDPIC heat map, leadership talking points</td></tr>
+          <tr><td>Account Executive</td><td>Deal scorecard, discovery questions, talk track, next action per opp</td></tr>
+          <tr><td>SDR</td><td>Trigger events, ICP fit, outbound hooks — pre-qualify I, M, C only</td></tr>
+          <tr><td>Solution Architect</td><td>Decision criteria matrix, PoC plan, architecture talking points</td></tr>
+          <tr><td>Customer Architect</td><td>Customer health, expansion plays, advocacy opportunities</td></tr>
+        </tbody>
+      </table>
+      <p>
+        In Cursor, persona subagents can run in parallel for AVP rollups. In Claude Desktop,
+        project instructions and prompt templates provide the same routing.
+      </p>
+    </article>
+
+    <article>
+      <h2>Deployment models</h2>
+      <h3>Field laptop (default)</h3>
+      <ul>
+        <li>Installer downloads Elasticsearch 8.17 native tarball — no Docker</li>
+        <li>Cluster on <code>127.0.0.1:9200</code>; API key written to <code>~/.config/dcos/env.sh</code></li>
+        <li>DMG / Setup.exe bundles scripts, extensions, and prebuilt <code>.mcpb</code> files</li>
+      </ul>
+      <h3>Elastic Cloud</h3>
+      <ul>
+        <li>Set <code>ELASTICSEARCH_URL</code> and <code>ELASTICSEARCH_API_KEY</code> in <code>env.sh</code></li>
+        <li>Same indices and MCP tools — useful when local disk or IT policy blocks embedded ES</li>
+      </ul>
+      <h3>Always-on sync (optional)</h3>
+      <p>
+        Background <code>sfdc-sync</code> on a timer keeps ES fresh without Claude running.
+        Scheduled Claude Routines read deltas on a cadence — see
+        <a href="always-on-agent.html">Always-on account agent</a>.
+      </p>
+    </article>
+
+    <article>
+      <h2>Security &amp; credentials</h2>
+      <table>
+        <thead>
+          <tr><th>Secret</th><th>Where it lives</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Elasticsearch API key</td>
+            <td><code>~/.config/dcos/env.sh</code> — seeded by installer, read by MCP at runtime</td>
+          </tr>
+          <tr>
+            <td>Salesforce session</td>
+            <td>Salesforce CLI auth store — browser SSO, not pasted into Claude UI</td>
+          </tr>
+          <tr>
+            <td>Jina API key</td>
+            <td><code>env.sh</code> — prompted during install; used by Jina MCP extension</td>
+          </tr>
+          <tr>
+            <td>Connector tokens</td>
+            <td><code>connectors.yaml</code> — optional, per-connector configuration</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        MCP extensions run locally in Claude's UtilityProcess. CRM and ES calls never route through
+        a DCOS-hosted cloud API.
+      </p>
+    </article>
+
+    <article>
+      <h2>Build vs buy</h2>
+      <p>
+        DCOS trades platform breadth for sales depth: native Salesforce, MEDDPIC coaching,
+        Elasticsearch you control, and field-first installers. Generic AI platforms optimize for
+        many departments and centralized IT — different job, different architecture.
+      </p>
+      <p>
+        More questions? See <a href="qa.html">Q&amp;A</a> or the leadership brief in the source repo
+        (<code>docs/LEADERSHIP-BUILD-VS-BUY.md</code>).
+      </p>
+    </article>
+
+    <footer>
+      <p>
+        <a href="./">Home</a>
+        · <a href="qa.html">Q&amp;A</a>
+        · <a href="example-prompts.html">Example prompts</a>
+        · <a href="always-on-agent.html">Always-on agent</a>
+        · <a href="./#download">Download</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
