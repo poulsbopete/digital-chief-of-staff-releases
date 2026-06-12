@@ -385,13 +385,13 @@
             <span class="arch-tag">MCP</span>
             <strong>DCOS MCP</strong>
             <span><code>dcos_*</code> &middot; ES search</span>
-            <span>Salesforce sync &middot; connectors</span>
+            <span>BigQuery CRM sync &middot; connectors</span>
           </div>
           <div class="arch-box arch-sfdc">
             <span class="arch-tag">CRM</span>
-            <strong>Salesforce</strong>
-            <span>live SOQL</span>
-            <span>browser SSO &middot; sf CLI</span>
+            <strong>Google BigQuery</strong>
+            <span>replicated SFDC tables</span>
+            <span>service account &middot; no SF CLI</span>
           </div>
           <div class="arch-box arch-conn">
             <span class="arch-tag">Optional</span>
@@ -439,7 +439,7 @@
         <div class="layer-card">
           <div class="layer-tag mcp">MCP</div>
           <h3>DCOS extension</h3>
-          <p>13+ tools: Salesforce queries, ES search, note indexing, connector calls, index setup. Runs in-process via bundled Node.</p>
+          <p>13+ tools: BigQuery CRM queries, ES search, note indexing, connector calls, index setup. Runs in-process via bundled Node.</p>
         </div>
         <div class="layer-card">
           <div class="layer-tag mcp">MCP</div>
@@ -453,8 +453,8 @@
         </div>
         <div class="layer-card">
           <div class="layer-tag external">External</div>
-          <h3>Salesforce</h3>
-          <p>System of record. Browser SSO via <code>sf</code> CLI — live SOQL at brief time plus optional background sync to ES.</p>
+          <h3>BigQuery CRM</h3>
+          <p>System of record (replicated SFDC). Service account access — BigQuery SQL at brief time plus optional background sync to ES.</p>
         </div>
         <div class="layer-card">
           <div class="layer-tag external">Optional</div>
@@ -563,8 +563,8 @@
             <td><code>~/.config/dcos/env.sh</code> — seeded by installer, read by MCP at runtime</td>
           </tr>
           <tr>
-            <td>Salesforce session</td>
-            <td>Salesforce CLI auth store — browser SSO, not pasted into Claude UI</td>
+            <td>BigQuery service account JSON</td>
+            <td><code>~/.config/dcos/env.sh</code> — configured by setup script, not pasted into Claude UI</td>
           </tr>
           <tr>
             <td>Jina API key</td>
@@ -585,7 +585,7 @@
     <article>
       <h2>Build vs buy</h2>
       <p>
-        DCOS trades platform breadth for sales depth: native Salesforce, MEDDPIC coaching,
+        DCOS trades platform breadth for sales depth: BigQuery CRM, MEDDPIC coaching,
         Elasticsearch you control, and field-first installers. Generic AI platforms optimize for
         many departments and centralized IT — different job, different architecture.
       </p>
