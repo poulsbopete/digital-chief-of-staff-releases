@@ -281,7 +281,22 @@
     </div>
 
     <div class="faq-group">
-      <h2>Salesforce &amp; data</h2>
+      <h2>CRM &amp; data</h2>
+
+      <details>
+        <summary>BigQuery vs Salesforce — which CRM path should I use?</summary>
+        <div class="faq-body">
+          <p>
+            <strong>BigQuery</strong> (recommended when IT denies Salesforce CLI OAuth): RevOps Business Certified
+            pipeline in <code>elastic-edm-prod</code>. Run <strong>Setup BigQuery CRM</strong> during install
+            or <code>./scripts/setup-bigquery-crm.sh</code>. Uses gcloud credentials or a service account JSON.
+          </p>
+          <p>
+            <strong>Salesforce CLI</strong>: browser SSO via <code>sf org login web</code> when your org approves
+            the CLI OAuth app. Same <code>dcos_sfdc_*</code> tools either way.
+          </p>
+        </div>
+      </details>
 
       <details>
         <summary>How does Salesforce authentication work?</summary>
@@ -291,8 +306,8 @@
             <code>sf org login web</code>; no API tokens are pasted into Claude settings.
           </p>
           <p>
-            DCOS reads live CRM data via the Salesforce CLI session and can sync opportunities
-            into Elasticsearch for search and delta comparison across briefs.
+            DCOS reads CRM data via BigQuery or the Salesforce CLI session and syncs opportunities
+            into Elasticsearch every 15 minutes for search and delta comparison across briefs.
           </p>
         </div>
       </details>

@@ -374,7 +374,7 @@
 
     <article>
       <h2>High-level view</h2>
-      <div class="arch-diagram" aria-label="Architecture diagram: Claude Desktop connects to DCOS MCP, Jina MCP, Salesforce, and optional connectors, with Elasticsearch as the data layer.">
+      <div class="arch-diagram" aria-label="Architecture diagram: Claude Desktop connects to DCOS MCP, Jina MCP, BigQuery or Salesforce CRM, and optional connectors, with Elasticsearch as the data layer.">
         <div class="arch-box arch-client">
           <span class="arch-tag">Client</span>
           <strong>Claude Desktop &middot; Cursor &middot; Scheduled Routine</strong>
@@ -385,13 +385,13 @@
             <span class="arch-tag">MCP</span>
             <strong>DCOS MCP</strong>
             <span><code>dcos_*</code> &middot; ES search</span>
-            <span>Salesforce sync &middot; connectors</span>
+            <span>CRM sync &middot; connectors</span>
           </div>
           <div class="arch-box arch-sfdc">
             <span class="arch-tag">CRM</span>
-            <strong>Salesforce</strong>
-            <span>live SOQL</span>
-            <span>browser SSO &middot; sf CLI</span>
+            <strong>BigQuery or Salesforce</strong>
+            <span>RevOps certified BQ</span>
+            <span>SOQL &middot; browser SSO &middot; sf CLI</span>
           </div>
           <div class="arch-box arch-conn">
             <span class="arch-tag">Optional</span>
@@ -439,7 +439,7 @@
         <div class="layer-card">
           <div class="layer-tag mcp">MCP</div>
           <h3>DCOS extension</h3>
-          <p>13+ tools: Salesforce queries, ES search, note indexing, connector calls, index setup. Runs in-process via bundled Node.</p>
+          <p>13+ tools: CRM queries (BigQuery or Salesforce), ES search, note indexing, connector calls, index setup. Runs in-process via bundled Node.</p>
         </div>
         <div class="layer-card">
           <div class="layer-tag mcp">MCP</div>
@@ -452,9 +452,13 @@
           <p>Account memory: notes, synced opps, activities, signals. Full-text search powers delta comparison across briefs.</p>
         </div>
         <div class="layer-card">
-          <div class="layer-tag external">External</div>
-          <h3>Salesforce</h3>
-          <p>System of record. Browser SSO via <code>sf</code> CLI — live SOQL at brief time plus optional background sync to ES.</p>
+          <div class="layer-tag external">CRM</div>
+          <h3>BigQuery or Salesforce</h3>
+          <p>
+            <strong>BigQuery</strong> (recommended when SF CLI is denied): RevOps certified pipeline in
+            <code>elastic-edm-prod</code> — no browser OAuth. Or <strong>Salesforce</strong> via
+            <code>sf</code> CLI browser SSO. Background sync to ES every 15 minutes either way.
+          </p>
         </div>
         <div class="layer-card">
           <div class="layer-tag external">Optional</div>
@@ -468,7 +472,7 @@
       <h2>Morning brief data flow</h2>
       <ol class="flow">
         <li><strong>Load profile</strong> — <code>dcos_user_profile</code> returns persona (AVP, AE, …) and account watchlist from <code>~/.config/dcos/</code>.</li>
-        <li><strong>Refresh CRM</strong> — <code>dcos_sfdc_sync</code> pulls opportunity changes into <code>dcos_opportunities</code>.</li>
+        <li><strong>Refresh CRM</strong> — <code>dcos_sfdc_sync</code> pulls pipeline changes from BigQuery or Salesforce into <code>dcos_opportunities</code> (every 15 min in background).</li>
         <li><strong>Internal context</strong> — <code>dcos_search</code> across notes, prior briefs, activities, and signals per account.</li>
         <li><strong>External research</strong> — Jina <code>parallel_search_web</code> for trigger events, leadership changes, competitive news.</li>
         <li><strong>Synthesize</strong> — Persona instructions format an Executive Daily Brief with MEDDPIC gaps and one action per account.</li>
@@ -493,7 +497,7 @@
           </tr>
           <tr>
             <td><code>dcos_opportunities</code></td>
-            <td>Salesforce opportunities synced for full-text search and territory rollups</td>
+            <td>Salesforce opportunities synced for full-text search and territory rollups (via BigQuery or SF CLI)</td>
           </tr>
           <tr>
             <td><code>dcos_activities</code></td>
@@ -545,7 +549,7 @@
       </ul>
       <h3>Always-on sync (optional)</h3>
       <p>
-        Background <code>sfdc-sync</code> on a timer keeps ES fresh without Claude running.
+        Background <code>sfdc-sync</code> on a 15-minute timer keeps ES fresh from BigQuery or Salesforce without Claude running.
         Scheduled Claude Routines read deltas on a cadence — see
         <a href="always-on-agent.html">Always-on account agent</a>.
       </p>
@@ -563,8 +567,12 @@
             <td><code>~/.config/dcos/env.sh</code> — seeded by installer, read by MCP at runtime</td>
           </tr>
           <tr>
+            <td>BigQuery / GCP</td>
+            <td><code>~/.config/dcos/env.sh</code> — gcloud ADC or service account JSON; RevOps certified tables in <code>elastic-edm-prod</code></td>
+          </tr>
+          <tr>
             <td>Salesforce session</td>
-            <td>Salesforce CLI auth store — browser SSO, not pasted into Claude UI</td>
+            <td>Salesforce CLI auth store — browser SSO when IT approves; alternative to BigQuery</td>
           </tr>
           <tr>
             <td>Jina API key</td>
@@ -585,7 +593,7 @@
     <article>
       <h2>Build vs buy</h2>
       <p>
-        DCOS trades platform breadth for sales depth: native Salesforce, MEDDPIC coaching,
+        DCOS trades platform breadth for sales depth: BigQuery or native Salesforce, MEDDPIC coaching,
         Elasticsearch you control, and field-first installers. Generic AI platforms optimize for
         many departments and centralized IT — different job, different architecture.
       </p>

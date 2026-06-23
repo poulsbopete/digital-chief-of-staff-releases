@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="archTitle archDesc">
   <title id="archTitle">Digital Chief of Staff architecture</title>
-  <desc id="archDesc">Claude Desktop orchestrates DCOS and Jina MCP servers connected to Salesforce, connectors, and Elasticsearch.</desc>
+  <desc id="archDesc">Claude Desktop orchestrates DCOS and Jina MCP servers connected to BigQuery or Salesforce CRM, connectors, and Elasticsearch.</desc>
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0c1018"/>
@@ -58,16 +58,16 @@
   <text x="78" y="193" text-anchor="middle" fill="#00bfb3" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">MCP</text>
   <text x="140" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">DCOS MCP</text>
   <text x="140" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Mono, monospace" font-size="11">dcos_* &#183; ES search</text>
-  <text x="140" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">Salesforce sync &#183; connectors</text>
+  <text x="140" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">CRM sync &#183; connectors</text>
 
   <g filter="url(#shadow)">
     <rect x="260" y="168" width="160" height="100" rx="12" fill="url(#goldGrad)" stroke="rgba(245,166,35,0.45)" stroke-width="1.5"/>
   </g>
   <rect x="272" y="180" width="72" height="18" rx="9" fill="rgba(245,166,35,0.15)" stroke="rgba(245,166,35,0.35)" stroke-width="1"/>
   <text x="308" y="193" text-anchor="middle" fill="#f5a623" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">CRM</text>
-  <text x="340" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" font-weight="600">Salesforce</text>
-  <text x="340" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">live SOQL</text>
-  <text x="340" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">browser SSO &#183; sf CLI</text>
+  <text x="340" y="214" text-anchor="middle" fill="#f4f6f9" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600">BigQuery or SF</text>
+  <text x="340" y="236" text-anchor="middle" fill="#8b95a8" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11">RevOps certified BQ</text>
+  <text x="340" y="254" text-anchor="middle" fill="#5c6578" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10">SOQL &#183; browser SSO &#183; sf CLI</text>
 
   <g filter="url(#shadow)">
     <rect x="440" y="168" width="160" height="100" rx="12" fill="#121824" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>

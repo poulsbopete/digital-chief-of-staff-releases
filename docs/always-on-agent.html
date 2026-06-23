@@ -229,8 +229,8 @@
           </span>
         </li>
         <li>
-          <strong>Background Salesforce sync (macOS)</strong>
-          <span>Keep CRM data indexed even when Claude is closed.</span>
+          <strong>Background CRM sync (macOS)</strong>
+          <span>BigQuery or Salesforce → Elasticsearch every 15 minutes, even when Claude is closed.</span>
         </li>
         <li>
           <strong>Schedule a Claude Routine</strong>
@@ -241,7 +241,11 @@
 
     <article>
       <h2>Step 2 — Background sync (macOS)</h2>
-      <p>After install, enable launchd to sync Salesforce → Elasticsearch every 15 minutes:</p>
+      <p>After install, enable launchd to sync BigQuery or Salesforce → Elasticsearch every 15 minutes:</p>
+      <pre>./scripts/enable-sfdc-sync-schedule.sh
+# Or from the install folder after DMG install</pre>
+      <p>Uses <code>DCOS_CRM_SOURCE=bigquery</code> from <code>~/.config/dcos/env.sh</code> when Salesforce CLI is denied.</p>
+      <p>Manual plist (advanced):</p>
       <pre>cp launchd/com.elastic.dcos.sfdc-sync.plist.example \
   ~/Library/LaunchAgents/com.elastic.dcos.sfdc-sync.plist
 
