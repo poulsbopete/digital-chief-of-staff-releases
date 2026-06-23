@@ -117,13 +117,22 @@
     <span class="pill">Elastic FY27 sales process</span>
     <h1>Map opportunities to MEDDPICC stage</h1>
     <p class="lead">
-      Copy a prompt into Claude Desktop after install. DCOS pulls CRM data from BigQuery and indexed notes,
+      Copy a prompt into Claude Desktop after install. DCOS pulls live Salesforce data and indexed notes,
       then maps each opportunity to Elastic's 8-stage process with MEDDPICC maturity scoring — grounded in CRM truth, not guesswork.
     </p>
 
     <div class="callout">
       <strong>Requires:</strong> Digital Chief of Staff + Jina connectors enabled under Connectors → Desktop.
       Run <code style="color:var(--teal)">dcos_sfdc_sync</code> before territory-wide reviews.
+    </div>
+
+    <div class="callout" style="border-color:rgba(245,166,35,0.35);background:rgba(245,166,35,0.06);">
+      <strong>MEDDPICC Coach training module:</strong> DCOS bundles the <code style="color:var(--gold)">meddpicc-coach</code> Claude skill —
+      interactive scoring, Socratic drills, role-play, and a pipeline dashboard app.
+      After install: Claude Desktop → Settings → Capabilities → Skills → upload
+      <code style="color:var(--teal)">~/.config/dcos/meddpicc-coach.skill</code> → toggle ON.
+      See <a href="example-prompts.html#sa" style="color:var(--teal)">SA example prompts</a> or
+      <a href="https://github.com/poulsbopete/digital-chief-of-staff/blob/main/docs/MEDDPICC-COACH.md" style="color:var(--teal)">MEDDPICC-COACH.md</a>.
     </div>
 
     <h2>8-stage quick reference</h2>

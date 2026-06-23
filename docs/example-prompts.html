@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Example Prompts by Persona — Digital Chief of Staff</title>
-  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, and Customer Architect — account research, 1-2-3 tech wins, MEDDPIC coaching, and territory briefs." />
+  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, and Customer Architect — daily Strat briefs, 1-2-3 tech wins, MEDDPIC coaching, and territory briefs." />
   <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -153,9 +153,108 @@ Suggest the right AE/SA handoff and dcos_add_note with source: sdr_discovery.</p
 
     <!-- SA -->
     <div class="persona-panel active" data-panel="sa">
-      <div class="role">Solution Architect · Tech win tracking</div>
-      <h2>1-2-3 weekly tech-win update</h2>
-      <p>Standard SA format for deal reviews, Slack updates, and StratTrack notes — path to tech win, last week, this week.</p>
+      <div class="role">Solution Architect · Territory &amp; tech wins</div>
+      <h2>Daily brief + 1-2-3 updates</h2>
+      <p>Morning Strat brief (SFDC, Gmail, Drive, Zoom, Slack, web) or weekly 1-2-3 for deal reviews. Replace bracketed placeholders with your territory.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — SA daily brief (scheduled routine)</h3>
+          <button type="button" class="copy-btn" data-copy="sa-daily-brief">Copy</button>
+        </div>
+        <pre class="prompt" id="sa-daily-brief">You are my Digital Chief of Staff for Elastic sales.
+I am a Solution Architect on the Strategic (Strat) accounts team.
+
+Run the FULL SA Strat daily brief. Execute ALL steps before writing output.
+Ground CRM from dcos_sfdc_* when connected; otherwise use my watchlist below + dcos_search.
+DELTAS ONLY vs the prior avp_brief note — skip unchanged accounts.
+
+─── TERRITORY (customize) ───
+Reps: [AE names and patch accounts]
+Watchlist — current quarter + next quarter opps (ACV, stage, close date, blockers):
+
+[Rep Name] / [Account]:
+- [Opp Name]: $[ACV] ([Quarter], close [date], Stage [n]) — [blocker if any]
+(repeat for each opp on watchlist)
+
+─── STEP 1 — Salesforce ───
+dcos_user_profile
+dcos_sfdc_sync with lookback_days: 1
+If SFDC not connected, note "WAITING ON IT — not connected" and continue with ES + watchlist above.
+
+─── STEP 2 — Prior brief delta ───
+dcos_search query: "territory pipeline MEDDPIC delta blocker champion stage change" limit: 25
+dcos_search source_filter: avp_brief limit: 5
+Compare to prior avp_brief notes — identify deltas since last run.
+
+─── STEP 3 — Per-account ES pass (material changes only) ───
+For each watchlist account, dcos_search with account_filter — limit 15.
+Flag MEDDPIC letter changes (M/E/D/D/P/I/C), new blockers, stage/ACV changes.
+
+─── STEP 4 — Gmail (last 24h) ───
+If Cowork Gmail or dcos gmail connector is available:
+  Search last 24h for watchlist account names and AE names.
+  Summarize urgent rep/customer threads only.
+Else one line: "Gmail not configured"
+
+─── STEP 5 — Google Drive (last 24h) ───
+If Cowork Google Drive or dcos google-drive / gdrive-granola connector is available:
+  Search files modified in last 24h matching watchlist account or deal names.
+Else one line: "Google Drive not configured"
+
+─── STEP 6 — Zoom (last 48h) ───
+If Cowork Zoom or dcos zoom connector is available:
+  List recent meetings with watchlist account names in title; note action items.
+Else one line: "Zoom not configured"
+
+─── STEP 7 — Slack (last 24h rep signals) ───
+Prefer Cowork Slack; otherwise dcos_connector_list + dcos_connector_call:
+  Search im/mpim and workspace (last 24h) for renewal, closed-won, blocker, and deal-update phrases on watchlist opps.
+Else one line: "Slack not configured — set DCOS_SLACK_BOT_TOKEN"
+
+─── STEP 8 — Web (Jina, last 24h) ───
+parallel_search_web with tbs qdr:d:
+  - "Elastic ESTC news"
+  - "[Top account] observability news" (repeat per strategic account)
+  - "Microsoft earnings enterprise news" (or key customer)
+  - "US markets inflation Fed"
+  - "Datadog New Relic Dynatrace observability news"
+
+─── OUTPUT — post to my Slack DM ───
+Post the brief to [Slack user ID] using Cowork Slack send_message, or:
+  dcos_connector_call slack open_dm params: { "users": "[Slack user ID]" }
+  dcos_connector_call slack post_message params: { "channel": "&lt;channel.id&gt;", "text": "&lt;brief&gt;", "mrkdwn": true }
+
+Format exactly:
+
+# SA Daily Brief — Strat
+**Updated:** [DATE TIME PT]
+
+## What matters today
+## What to watch
+## Today's game plan
+## Your priority actions today
+| Owner | Action | Deal | Due |
+## Deals at risk today
+| Deal | ACV | Risk | Owner |
+## Territory snapshot
+## High-priority setups
+## Rep handoffs
+## Elastic
+## World / macro
+## Markets
+## [Region] — local context
+
+─── OUTPUT RULES ───
+- DELTAS ONLY vs prior avp_brief — flag what changed
+- Skip accounts with no change
+- MEDDPIC terminology (M/E/D/D/P/I/C)
+- **Bold** dollar amounts and rep names
+- Flag **WAITING ON [NAME]** for blocked items
+
+─── AFTER POSTING ───
+dcos_add_note summarizing territory changes (source: avp_brief, blocker_tags, meddpic_letters).</pre>
+      </div>
 
       <div class="prompt-block">
         <div class="prompt-head">
@@ -186,6 +285,26 @@ Rules:
 - Name Elastic products (Observability/OTel, Security/SIEM, Search/vector)
 - End with one technical risk + mitigation
 - dcos_add_note with the 1-2-3 text (source: sa_123)</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — MEDDPICC Coach (skill)</h3>
+          <button type="button" class="copy-btn" data-copy="sa-meddpicc-coach">Copy</button>
+        </div>
+        <pre class="prompt" id="sa-meddpicc-coach">Enable the meddpicc-coach skill (Claude Desktop → Settings → Capabilities → Skills).
+
+Score opportunity [Opp Name] at [Account] using MEDDPICC Coach.
+
+Before scoring:
+1. dcos_user_profile and dcos_sfdc_sync
+2. dcos_sfdc_get_opportunity + dcos_search for prior notes and blockers
+
+Use Score &amp; Gaps mode. Pull CRM facts — do not invent ACV, stage, or close date.
+End with 2–3 concrete next actions (name + ask + timing).
+
+Optional: "Open the pipeline app" for the visual dashboard artifact.
+After coaching: dcos_add_note (source: meddpicc_coach).</pre>
       </div>
 
       <div class="prompt-block">

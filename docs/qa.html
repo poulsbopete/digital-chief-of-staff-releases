@@ -216,7 +216,7 @@
           <ul>
             <li><strong>Claude Desktop</strong> — from <a href="https://claude.ai/download">claude.ai/download</a></li>
             <li><strong>Node.js 18+</strong> — auto-installed by the installer if missing</li>
-            <li><strong>BigQuery CRM</strong> — GCP project + dataset with replicated Salesforce tables (see setup script)</li>
+            <li><strong>Salesforce CLI</strong> (<code>sf</code>) — for browser SSO login (<code>brew install sf</code> on macOS)</li>
             <li><strong>Jina API key</strong> (free) — for web research; prompted during install</li>
           </ul>
         </div>
@@ -258,7 +258,7 @@
         <summary>Cowork vs Desktop connectors — which one am I using?</summary>
         <div class="faq-body">
           <p>
-            <strong>Desktop connectors</strong> run on your machine with your BigQuery CRM connection and Elasticsearch.
+            <strong>Desktop connectors</strong> run on your machine with your Salesforce session and Elasticsearch.
             <strong>Cowork / mcp-registry</strong> connectors run in Anthropic's cloud and may not see your local CRM data.
           </p>
           <p>
@@ -281,19 +281,18 @@
     </div>
 
     <div class="faq-group">
-      <h2>CRM &amp; data</h2>
+      <h2>Salesforce &amp; data</h2>
 
       <details>
-        <summary>How does CRM data connect?</summary>
+        <summary>How does Salesforce authentication work?</summary>
         <div class="faq-body">
           <p>
-            Your team replicates Salesforce into <strong>Google BigQuery</strong>. DCOS reads those tables
-            via a service account — no Salesforce CLI or browser login on the rep's laptop.
+            Browser SSO — the same login you use today. The installer runs
+            <code>sf org login web</code>; no API tokens are pasted into Claude settings.
           </p>
           <p>
-            Run <code>./scripts/setup-bigquery-crm.sh</code> (or double-click <strong>Setup BigQuery CRM</strong>)
-            to set <code>DCOS_BQ_PROJECT_ID</code>, <code>DCOS_BQ_DATASET</code>, and credentials in
-            <code>~/.config/dcos/env.sh</code>. Then <code>dcos_sfdc_sync</code> pulls changes into Elasticsearch.
+            DCOS reads live CRM data via the Salesforce CLI session and can sync opportunities
+            into Elasticsearch for search and delta comparison across briefs.
           </p>
         </div>
       </details>
@@ -410,7 +409,7 @@
         <summary>Is this the same as StratTrack?</summary>
         <div class="faq-body">
           <p>
-            <strong>No.</strong> DCOS is standalone — it connects to BigQuery CRM and your own Elasticsearch indices.
+            <strong>No.</strong> DCOS is standalone — it connects directly to Salesforce and your own Elasticsearch indices.
             StratTrack data can be migrated, but DCOS does not require StratTrack to run.
           </p>
         </div>
