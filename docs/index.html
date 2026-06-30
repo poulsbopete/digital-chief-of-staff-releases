@@ -449,6 +449,19 @@
 
     /* Video */
     .video-section { margin: 4rem 0; }
+    .video-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245,166,35,0.35);
+      background: rgba(245,166,35,0.08);
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+    }
     .video-wrap {
       max-width: 920px;
       margin: 0 auto;
@@ -605,7 +618,7 @@
       </a>
       <div class="nav-links">
         <a href="#why">Why DCOS</a>
-        <a href="#video">Watch</a>
+        <a href="#video">Overview</a>
         <a href="qa.html">Q&amp;A</a>
         <a href="architecture.html">Architecture</a>
         <a href="example-prompts.html">Example prompts</a>
@@ -631,7 +644,7 @@
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" id="hero-download" href="#download">Download free →</a>
-        <a class="btn btn-ghost" href="#video">Watch the video ▶</a>
+        <a class="btn btn-ghost" href="#video">Watch the 4‑min story ▶</a>
         <a class="btn btn-ghost" href="#compare">Why not Abacus.AI?</a>
       </div>
 
@@ -794,15 +807,19 @@
 
     <section id="video" class="video-section">
       <div class="section-head">
-        <h2>See it in 4 minutes</h2>
-        <p>From 6 AM Slack chaos to a morning brief that actually knows your pipeline — comedy optional, CRM numbers non‑negotiable.</p>
+        <span class="video-badge">Marketing overview · not a product demo</span>
+        <h2>The 4‑minute story</h2>
+        <p>
+          A comedy-forward explainer for Elastic field teams — the 6 AM problem, why generic AI hallucinates your pipeline, and the vision behind DCOS.
+          You won't see Claude screens here; for that, install below or open <a href="example-prompts.html" style="color:var(--teal);font-weight:600;text-decoration:none;">Example prompts</a> and <a href="architecture.html" style="color:var(--teal);font-weight:600;text-decoration:none;">Architecture</a>.
+        </p>
       </div>
       <div class="video-wrap">
         <div class="video-aspect">
           <iframe
             id="dcos-video"
             src="https://www.youtube.com/embed/f0hAEHBA-ck"
-            title="Digital Chief of Staff — I Built an AI Chief of Staff for Sales"
+            title="Digital Chief of Staff — field enablement overview (marketing video)"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
             loading="lazy"
@@ -812,12 +829,13 @@
         <div class="video-caption">
           <p>
             <strong>I Built an AI Chief of Staff for Sales — And It Roasts My Pipeline.</strong>
-            SDR → AVP personas, live BigQuery/Salesforce, Elasticsearch memory, Steve Deckrow's MEDDPICC coach built in, and the scheduled brief that makes you look staffed.
+            Persona comedy (SDR → AVP), the *why* behind live CRM + memory + briefs, and credits to the people who made adoption possible. Shareable intro — hands-on DCOS starts with the installer.
           </p>
           <div class="video-actions">
-            <a class="btn-video primary" href="#download">Install now →</a>
-            <a class="btn-video" href="https://youtu.be/f0hAEHBA-ck" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+            <a class="btn-video primary" href="#download">Install &amp; try it →</a>
             <a class="btn-video" href="example-prompts.html">Example prompts</a>
+            <a class="btn-video" href="architecture.html">How DCOS works</a>
+            <a class="btn-video" href="https://youtu.be/f0hAEHBA-ck" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
           </div>
         </div>
       </div>
@@ -825,6 +843,10 @@
         Idea sparked by <strong>Miguel Sampo</strong> · MEDDPICC coaching from <strong>Steve Deckrow</strong> ·
         The right price of free — <strong>Nicholas Drost</strong> providing Claude credit for SAs &amp; CAs
       </p>
+      <div class="section-head" style="margin-top:2.5rem;margin-bottom:1rem;">
+        <h2 style="font-size:clamp(1.35rem,3vw,1.75rem);">What's inside DCOS once you install</h2>
+        <p>Connectors and capabilities the marketing video describes — this is the actual stack.</p>
+      </div>
       <div class="connectors-grid">
         <div class="connectors-card">
           <h4>Claude web connectors</h4>
