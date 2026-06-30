@@ -447,6 +447,109 @@
       color: #f5c842;
     }
 
+    /* Video */
+    .video-section { margin: 4rem 0; }
+    .video-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    }
+    .video-aspect {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    .video-aspect video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+    .video-caption {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .video-caption p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 520px;
+    }
+    .video-caption strong { color: var(--text); }
+    .video-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .btn-video {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-video:hover { border-color: rgba(0,191,179,0.5); color: var(--teal); }
+    .btn-video.primary {
+      background: rgba(0,191,179,0.12);
+      border-color: rgba(0,191,179,0.35);
+      color: var(--teal);
+    }
+    .video-credits {
+      max-width: 920px;
+      margin: 1rem auto 0;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.82rem;
+      color: var(--dim);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .video-credits strong { color: var(--muted); font-weight: 600; }
+    .connectors-grid {
+      max-width: 920px;
+      margin: 1.25rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+    .connectors-card {
+      padding: 1rem 1.15rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: left;
+    }
+    .connectors-card h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+    .connectors-card ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .connectors-card li::before {
+      content: "· ";
+      color: var(--dim);
+    }
+
     /* Steps */
     .steps-grid {
       display: grid;
@@ -502,6 +605,7 @@
       </a>
       <div class="nav-links">
         <a href="#why">Why DCOS</a>
+        <a href="#video">Watch</a>
         <a href="qa.html">Q&amp;A</a>
         <a href="architecture.html">Architecture</a>
         <a href="example-prompts.html">Example prompts</a>
@@ -527,6 +631,7 @@
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" id="hero-download" href="#download">Download free →</a>
+        <a class="btn btn-ghost" href="#video">Watch the video ▶</a>
         <a class="btn btn-ghost" href="#compare">Why not Abacus.AI?</a>
       </div>
 
@@ -685,6 +790,66 @@
           </tbody>
         </table>
       </div>
+    </section>
+
+    <section id="video" class="video-section">
+      <div class="section-head">
+        <h2>See it in 4 minutes</h2>
+        <p>From 6 AM Slack chaos to a morning brief that actually knows your pipeline — comedy optional, CRM numbers non‑negotiable.</p>
+      </div>
+      <div class="video-wrap">
+        <div class="video-aspect">
+          <video
+            id="dcos-video"
+            controls
+            playsinline
+            preload="metadata"
+            aria-label="Digital Chief of Staff product overview video"
+          >
+            <source src="media/dcos.mp4" type="video/mp4" />
+            Your browser does not support embedded video.
+            <a href="media/dcos.mp4">Download the video</a>.
+          </video>
+        </div>
+        <div class="video-caption">
+          <p>
+            <strong>I Built an AI Chief of Staff for Sales — And It Roasts My Pipeline.</strong>
+            SDR → AVP personas, live BigQuery/Salesforce, Elasticsearch memory, Steve Deckrow's MEDDPICC coach built in, and the scheduled brief that makes you look staffed.
+          </p>
+          <div class="video-actions">
+            <a class="btn-video primary" href="#download">Install now →</a>
+            <a class="btn-video" href="media/dcos.mp4" download>Download MP4</a>
+            <a class="btn-video" href="example-prompts.html">Example prompts</a>
+          </div>
+        </div>
+      </div>
+      <p class="video-credits">
+        Idea sparked by <strong>Miguel Sampo</strong> · MEDDPICC coaching from <strong>Steve Deckrow</strong> ·
+        The right price of free — <strong>Nicholas Drost</strong> providing Claude credit for SAs &amp; CAs
+      </p>
+      <div class="connectors-grid">
+        <div class="connectors-card">
+          <h4>Claude web connectors</h4>
+          <ul>
+            <li>Gmail</li>
+            <li>Google Calendar</li>
+            <li>Google Drive</li>
+            <li>Slack</li>
+            <li>Zoom for Claude</li>
+          </ul>
+        </div>
+        <div class="connectors-card">
+          <h4>Desktop connectors (with DCOS)</h4>
+          <ul>
+            <li>Digital Chief of Staff — CRM &amp; memory</li>
+            <li>Jina — web research</li>
+            <li>Filesystem — local files</li>
+          </ul>
+        </div>
+      </div>
+      <p class="video-credits" style="margin-top:1rem;">
+        Enable all in Claude Desktop → <strong>Connectors</strong>. DCOS briefs weave pipeline, comms, calendar, and docs into one answer.
+      </p>
     </section>
 
     <section id="learn-more">
