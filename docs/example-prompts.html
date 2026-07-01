@@ -70,6 +70,31 @@
       font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; line-height: 1.6;
       color: #c8d0dc; white-space: pre-wrap; word-break: break-word;
     }
+    .required-box {
+      margin-bottom: 2.5rem;
+      padding: 1.35rem 1.5rem;
+      border-radius: var(--radius);
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.28);
+    }
+    .required-box h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+    .required-box > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1rem; }
+    .required-box ul {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0 0 1rem 1.15rem;
+      line-height: 1.55;
+    }
+    .required-box li { margin-bottom: 0.35rem; }
+    .required-box code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85em;
+      color: var(--teal);
+    }
     footer { border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 2rem; text-align: center; color: var(--dim); font-size: 0.82rem; }
     footer a { color: var(--teal); text-decoration: none; }
     @media (max-width: 600px) { .nav-links a:not(.btn-nav) { display: none; } }
@@ -95,9 +120,46 @@
 
     <h1>Example prompts by persona</h1>
     <p class="lead">
-      Copy into Claude Desktop after install. DCOS pulls Salesforce + your watchlist, researches the web,
-      and formats output for your role. Replace bracketed placeholders with real account and opp names.
+      Copy into Claude Desktop after install. Every brief must start with the required CRM refresh steps below —
+      then use your persona prompt. Replace bracketed placeholders with real account and opp names.
     </p>
+
+    <section class="required-box" id="required">
+      <h2>⚠️ Required first — run on every brief</h2>
+      <p>
+        Claude must execute these <strong>before</strong> writing output. Skipping them causes stale ACV and stage
+        (especially if Claude reads old <code>dcos_search</code> notes instead of live BigQuery).
+      </p>
+      <ul>
+        <li><strong>Live pipeline (ACV, stage, close date):</strong> <code>dcos_watchlist_pipeline</code> only</li>
+        <li><strong>MEDDPIC / prior brief context:</strong> <code>dcos_search</code> only — never pipeline dollars</li>
+        <li><strong>Background sync:</strong> BigQuery → Elasticsearch every ~15 min if <code>enable-sfdc-sync-schedule.sh</code> is enabled</li>
+        <li><strong>Extension refresh</strong> (MCP code, not CRM data): <code>Refresh Claude Extension.command</code> → Cmd+Q Claude</li>
+        <li><strong>BigQuery auth:</strong> <code>Refresh Google Auth.command</code> if <code>dcos_sfdc_auth_status</code> fails</li>
+      </ul>
+      <div class="prompt-block" style="margin-bottom:0">
+        <div class="prompt-head">
+          <h3>Copy into every routine — CRM refresh block</h3>
+          <button type="button" class="copy-btn" data-copy="crm-required">Copy</button>
+        </div>
+        <pre class="prompt" id="crm-required">⚠️ MANDATORY — run these steps BEFORE any brief output. Do not skip.
+
+1. dcos_sfdc_auth_status
+   If BigQuery not connected: tell user to run Refresh Google Auth.command and Refresh Claude Extension.command
+
+2. dcos_sfdc_sync with lookback_days: 1
+   Refreshes CRM → Elasticsearch for notes (also runs every ~15 min in background if launchd sync is enabled)
+
+3. dcos_watchlist_pipeline
+   REQUIRED for ALL pipeline numbers: ACV, stage, close date, owner
+   This queries live BigQuery (RevOps certified) — NOT stale notes
+
+4. dcos_search
+   MEDDPIC context, blockers, and brief deltas ONLY — NEVER use for ACV/stage/close date
+
+If live pipeline and dcos_search disagree on dollars, ALWAYS trust dcos_watchlist_pipeline.</pre>
+      </div>
+    </section>
 
     <div class="persona-tabs" id="persona-tabs">
       <button type="button" class="persona-tab" data-persona="sdr">SDR</button>
@@ -466,7 +528,10 @@ open support themes, and 3 questions for their VP sponsor.</pre>
           <h3>Claude Routine — weekly PS brief (scheduled)</h3>
           <button type="button" class="copy-btn" data-copy="services-routine">Copy</button>
         </div>
-        <pre class="prompt" id="services-routine">You are my Digital Chief of Staff for Elastic Professional Services.
+        <pre class="prompt" id="services-routine">⚠️ MANDATORY FIRST — same as example-prompts.html#required:
+dcos_sfdc_auth_status → dcos_sfdc_sync (lookback_days: 7) → dcos_watchlist_pipeline → dcos_search (context only)
+
+You are my Digital Chief of Staff for Elastic Professional Services.
 Run the FULL weekly PS engagement brief. Execute ALL steps before writing output.
 DELTAS ONLY vs prior dcos_services_brief notes — skip unchanged engagements.
 
