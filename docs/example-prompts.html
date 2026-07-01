@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Example Prompts by Persona — Digital Chief of Staff</title>
-  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, and Customer Architect — daily Strat briefs, 1-2-3 tech wins, MEDDPIC coaching, and territory briefs." />
+  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, CA, and Professional Services — daily briefs, weekly PS engagement reviews, MEDDPIC coaching, and territory rollups." />
   <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -105,6 +105,7 @@
       <button type="button" class="persona-tab" data-persona="ae">Account Executive</button>
       <button type="button" class="persona-tab" data-persona="avp">AVP / Leader</button>
       <button type="button" class="persona-tab" data-persona="ca">Customer Architect</button>
+      <button type="button" class="persona-tab" data-persona="services">Professional Services</button>
     </div>
 
     <!-- SDR -->
@@ -454,6 +455,107 @@ open support themes, and 3 questions for their VP sponsor.</pre>
       </div>
     </div>
 
+    <!-- Services -->
+    <div class="persona-panel" data-panel="services">
+      <div class="role">Professional Services · Delivery &amp; SOW</div>
+      <h2>Engagement health and milestone tracking</h2>
+      <p>Active customer engagements — SOW phases, delivery risk, and handoffs back to AE/SA.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude Routine — weekly PS brief (scheduled)</h3>
+          <button type="button" class="copy-btn" data-copy="services-routine">Copy</button>
+        </div>
+        <pre class="prompt" id="services-routine">You are my Digital Chief of Staff for Elastic Professional Services.
+Run the FULL weekly PS engagement brief. Execute ALL steps before writing output.
+DELTAS ONLY vs prior dcos_services_brief notes — skip unchanged engagements.
+
+⚠️ CRM AUTHORITY:
+- SOW amounts, close dates, opp stage: dcos_watchlist_pipeline or dcos_sfdc_* ONLY
+- dcos_search = delivery notes, kickoff summaries, scope changes, prior brief deltas ONLY
+- NEVER invent milestone dates or ACV
+
+─── STEP 1 — Profile + CRM ───
+dcos_user_profile — confirm persona: services
+dcos_sfdc_auth_status
+dcos_sfdc_sync with lookback_days: 7
+dcos_watchlist_pipeline — live opps on watchlist (including PS/SOW lines if present)
+
+Filter: accounts where owner.services = me and status: customer.
+
+─── STEP 2 — Internal context (per engagement, max 12) ───
+dcos_search — SOW, milestone, scope, sold-vs-delivering, blockers
+Compare to prior dcos_services_brief notes
+
+─── STEP 3 — Jina (optional) ───
+parallel_search_web (tbs qdr:w): "&lt;Account&gt; layoffs reorg budget"
+
+─── STEP 4 — Connectors ───
+Gmail / Drive / Zoom / Slack for meetings and threads since last brief
+
+─── OUTPUT ───
+
+# PS Weekly Brief — {name}
+**Week of:** {date}
+
+## Executive summary (3 bullets)
+## Active engagements (table: account · phase · milestone · 🟢/🟡/🔴)
+## What changed since last brief
+## Sold vs delivering (🟡/🔴 only — AE/SA promised vs PS scope)
+## Milestones this week (owner · due date)
+## Handoffs to field (AE / SA / CA — specific asks)
+## Delivery MEDDPIC gaps (P · D · M · I per at-risk account)
+## Recommended PS actions (one per engagement, owner + date)
+
+dcos_add_note with source: dcos_services_brief for next week's deltas.
+
+Schedule: Monday 7 AM · Connectors: DCOS + Jina · See always-on-agent.html</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>On-demand — weekly services brief</h3>
+          <button type="button" class="copy-btn" data-copy="services-brief">Copy</button>
+        </div>
+        <pre class="prompt" id="services-brief">Run dcos_user_profile and dcos_sfdc_sync.
+
+Professional Services brief for my active engagements (persona: services).
+
+Filter watchlist for owner.services = me and status: customer.
+Use dcos_search for SOW notes, kickoff summaries, scope changes, and deltas since last brief.
+dcos_sfdc_query for PS-related opportunities or cases if available.
+
+Output:
+## Active engagements (account · phase · next milestone · 🟢/🟡/🔴)
+## What changed since last brief
+## Sold vs delivering (gaps AE/SA promised vs PS scope)
+## Milestones this week (owner · due date)
+## Handoffs needed (AE / SA / CA) with specific asks
+## Recommended PS actions (one per engagement)
+
+Reframe MEDDPIC for delivery: P (SOW/change orders), D (customer project process), M (success criteria), I (delivery pain).</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — kickoff prep</h3>
+          <button type="button" class="copy-btn" data-copy="services-kickoff">Copy</button>
+        </div>
+        <pre class="prompt" id="services-kickoff">Prepare a Professional Services kickoff brief for [Account].
+
+Use dcos_search for everything AE/SA indexed: MEDDPIC, technical eval notes, PoC outcomes, and Granola meeting summaries.
+dcos_sfdc_get_opportunity for the PS/SOW opp if linked.
+
+Output:
+## What was sold (scope, success criteria, timeline — CRM/notes only)
+## Customer stakeholders &amp; project process
+## Technical environment assumptions
+## Risks already visible (access, security review, staffing)
+## Questions for AE/SA before kickoff
+## Day-1 agenda recommendation</pre>
+      </div>
+    </div>
+
     <footer>
       <p>
         <a href="./">← Home</a>
@@ -495,7 +597,7 @@ open support themes, and 3 questions for their VP sponsor.</pre>
       });
     });
 
-    if (location.hash === "#sdr" || location.hash === "#ae" || location.hash === "#avp" || location.hash === "#ca" || location.hash === "#sa") {
+    if (location.hash === "#sdr" || location.hash === "#ae" || location.hash === "#avp" || location.hash === "#ca" || location.hash === "#sa" || location.hash === "#services") {
       const id = location.hash.slice(1);
       document.querySelector(`.persona-tab[data-persona="${id}"]`)?.click();
     }

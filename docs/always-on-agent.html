@@ -262,7 +262,26 @@ launchctl load ~/Library/LaunchAgents/com.elastic.dcos.sfdc-sync.plist</pre>
     </article>
 
     <article>
-      <h2>Step 3 — Claude Routine</h2>
+      <h2>Persona routines</h2>
+      <table>
+        <thead><tr><th>Persona</th><th>Cadence</th><th>Prompt source</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>AVP / AE / SA</td>
+            <td>Weekdays 6:00 AM</td>
+            <td><a href="example-prompts.html">Example prompts</a> · Executive Daily Brief below</td>
+          </tr>
+          <tr>
+            <td>Professional Services</td>
+            <td>Monday 7:00 AM</td>
+            <td><a href="example-prompts.html#services">PS weekly engagement brief</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article>
+      <h2>Step 3 — Claude Routine (AVP / field sales)</h2>
       <h3>Create a Project (once)</h3>
       <p>
         Claude Desktop → <strong>Projects</strong> → new project → paste project instructions from the
@@ -317,6 +336,19 @@ Rules:
 - Ground all CRM numbers from dcos_sfdc_* tools only
 - MEDDPIC terminology throughout
 - After the brief, dcos_add_note summarizing material changes (source: dcos_scheduled_brief)</pre>
+
+      <h3>Prompt — Professional Services weekly (Monday routine)</h3>
+      <p>
+        PS consultants: use persona <code>services</code> in profile setup and copy the full scheduled prompt from
+        <a href="example-prompts.html#services">Example prompts → Professional Services → Claude Routine</a>.
+        Covers SOW milestones, sold-vs-delivering gaps, and AE/SA handoffs — deltas vs prior <code>dcos_services_brief</code> notes.
+      </p>
+      <pre>Schedule: Monday 7:00 AM · Connectors: digital-chief-of-staff + Jina
+Persona: services · Filter: owner.services on watchlist · status: customer
+
+Quick test in chat:
+Run dcos_user_profile, dcos_sfdc_sync, then produce my PS weekly brief —
+active engagements only, deltas since last dcos_services_brief note.</pre>
     </article>
 
     <article>
