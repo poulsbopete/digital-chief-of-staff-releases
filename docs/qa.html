@@ -269,12 +269,38 @@
       </details>
 
       <details>
+        <summary>DCOS extension dialog disappears before I can click Install</summary>
+        <div class="faq-body">
+          <p>
+            The installer opens <strong>DCOS</strong> then <strong>Jina</strong> back-to-back. Newer installers
+            pause and ask you to press Enter between them. Install DCOS first, confirm in Claude, then Jina.
+          </p>
+          <p>
+            Or install separately from <code>~/.config/dcos/digital-chief-of-staff.mcpb</code> and
+            <code>jina.mcpb</code>, or run <strong>Refresh Claude Extension.command</strong> from
+            <code>~/.config/dcos/</code> after install.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary>MEDDPICC skill upload fails or file not found</summary>
+        <div class="faq-body">
+          <p>
+            After install, the skill file should be at
+            <code>~/.config/dcos/meddpicc-coach.skill</code> (also attached to public GitHub releases).
+            Run <strong>Install MEDDPICC Coach.command</strong> from <code>~/.config/dcos/</code>, then
+            Claude Desktop → Settings → Capabilities → Skills → Upload.
+          </p>
+        </div>
+      </details>
+
+      <details>
         <summary>Configure / Save is stuck on the extension dialog</summary>
         <div class="faq-body">
           <p>
-            Run <strong>Refresh Claude Extension.command</strong> (macOS) or
-            <strong>Refresh Claude Extension.bat</strong> (Windows) from the install folder.
-            Quit Claude (Cmd+Q), reopen, and confirm both extensions show as enabled.
+            Run <strong>Refresh Claude Extension.command</strong> from <code>~/.config/dcos/</code> (macOS) or
+            re-run the installer helpers. Quit Claude (Cmd+Q), reopen, and confirm both extensions show as enabled.
           </p>
         </div>
       </details>
@@ -289,7 +315,9 @@
           <p>
             <strong>BigQuery</strong> (recommended when IT denies Salesforce CLI OAuth): RevOps Business Certified
             pipeline in <code>elastic-edm-prod</code>. Run <strong>Setup BigQuery CRM</strong> during install
-            or <code>./scripts/setup-bigquery-crm.sh</code>. Uses gcloud credentials or a service account JSON.
+            or double-click <code>~/.config/dcos/Setup BigQuery CRM.command</code>.
+            Auth: <code>~/.config/dcos/Refresh Google Auth.command</code> or
+            <code>gcloud auth application-default login</code>.
           </p>
           <p>
             <strong>Salesforce CLI</strong>: browser SSO via <code>sf org login web</code> when your org approves
