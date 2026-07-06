@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Example Prompts by Persona — Digital Chief of Staff</title>
-  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, CA, and Professional Services — daily briefs, weekly PS engagement reviews, MEDDPIC coaching, and territory rollups." />
+  <meta name="description" content="Copy-paste Claude prompts for SDR, SA, AE, AVP, CA, and Professional Services — daily briefs, account plans, weekly PS engagement reviews, MEDDPIC coaching, and territory rollups." />
   <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -388,8 +388,8 @@ Use dcos_search for prior architecture notes.</pre>
     <!-- AE -->
     <div class="persona-panel" data-panel="ae">
       <div class="role">Account Executive · Deal coach</div>
-      <h2>Call prep and MEDDPIC coaching</h2>
-      <p>Scorecard, talk track, and next action from live pipeline — never invent CRM fields.</p>
+      <h2>Call prep, account plans, and MEDDPIC coaching</h2>
+      <p>Scorecard, talk track, and next action from live pipeline — never invent CRM fields. Use the account plan prompt to modernize 10–14 slide decks with recent meetings, closed deals, and strategic activity.</p>
 
       <div class="prompt-block">
         <div class="prompt-head">
@@ -419,6 +419,81 @@ dcos_add_note with material MEDDPIC changes (source: ae_coach).</pre>
         <pre class="prompt" id="ae-multithread">For [Opp Name] at [Account]: map known contacts from CRM and notes.
 Who is missing for E and C in MEDDPIC? Suggest 3 personas to engage (EB, champion, technical buyer).
 Draft intro ask for my champion to open a door.</pre>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <h3>Claude prompt — modern account plan (10–14 slides)</h3>
+          <button type="button" class="copy-btn" data-copy="ae-account-plan">Copy</button>
+        </div>
+        <pre class="prompt" id="ae-account-plan">Run dcos_user_profile, dcos_sfdc_auth_status, dcos_sfdc_sync, dcos_watchlist_pipeline.
+
+Build a modern account plan deck for [Account Name] — max 14 slides, executive-ready.
+Paste output into Google Slides, PowerPoint, or a Claude artifact.
+
+Data gathering (run ALL before writing):
+1. dcos_sfdc_get_account — firmographics, owner, segment
+2. dcos_watchlist_pipeline + dcos_sfdc_list_opportunities — open pipeline (ACV/stage/close from CRM ONLY)
+3. dcos_sfdc_query — closed-won and closed-lost opps for this account, last 24 months
+4. dcos_search — meeting summaries (source: granola), account days, RFPs, PS notes, MEDDPIC history
+5. Jina (past 90 days) — earnings, leadership changes, security/Obs/GenAI initiatives, competitor POC news
+
+Output one ## heading per slide, 3–5 bullets each. Plain business language.
+
+## Slide 1 — [Account] Account Plan
+Cover: quarter, AE owner, Elastic team (SA/CA/PS)
+
+## Slide 2 — Executive summary
+Relationship health, pipeline headline, top opportunity, top risk
+
+## Slide 3 — Recent strategic activity (last 90 days)
+MANDATORY — table or timeline:
+| Date | Type | Summary | Elastic team | Outcome / next step |
+Include every indexed item:
+- Customer meetings (dcos_search / Granola summaries)
+- Deals closed won or lost (Amount + CloseDate from CRM)
+- Account days and executive briefings
+- RFPs and formal evaluations
+- Workshops, PoCs, PS milestones
+If thin: say what to index with dcos_add_note (source: granola) after the next touch
+
+## Slide 4 — Customer priorities & initiatives
+What CEO/CIO/CISO cares about — tied to external signals
+
+## Slide 5 — Elastic footprint today
+Products deployed, consumption themes, champions, support health
+
+## Slide 6 — Relationship map
+EB, champion, technical buyers, procurement — role and engagement level
+
+## Slide 7 — White space & expansion
+Use case → Elastic capability → estimated impact (no invented ACV)
+
+## Slide 8 — Active pipeline summary
+Table from live CRM only: Opp | Stage | ACV | Close | Weakest MEDDPIC letter
+
+## Slide 9 — Competitive landscape
+Incumbent tools, active evaluations, differentiation vs [Competitor]
+
+## Slide 10 — Mutual success plan
+Customer goals ↔ Elastic commitments ↔ co-owned milestones
+
+## Slide 11 — Partner & Professional Services
+SI partners, active SOWs, delivery status
+
+## Slide 12 — Risks & mitigations
+| Risk | Impact | Mitigation | Owner |
+
+## Slide 13 — 90-day action plan
+| Action | Owner | Due | Success criteria |
+
+## Slide 14 — Team & appendix
+Elastic pod + key customer contacts; note sources
+
+Rules:
+- NEVER invent CRM numbers — trust dcos_watchlist_pipeline / dcos_sfdc_* only
+- Flag gaps explicitly ("No RFP indexed — add note after procurement call")
+- dcos_add_note when plan is refreshed (source: ae_account_plan)</pre>
       </div>
       <p style="margin-top:1rem;"><a href="meddpicc-stages.html" style="color:var(--teal);font-weight:600;text-decoration:none;">Map opps to Elastic 8-stage + MEDDPICC maturity &rarr;</a></p>
     </div>
