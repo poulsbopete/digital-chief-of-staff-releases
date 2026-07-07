@@ -3,458 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Chief of Staff — AI for Elastic field sales</title>
-  <meta name="description" content="Morning briefs from live CRM, Elasticsearch memory, and MEDDPICC coaching — one installer for Claude Desktop." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Digital Chief of Staff — Elastic field teams</title>
+  <meta name="description" content="Claude Desktop installer for Elastic field teams. Internal documentation is available via Elastic SSO." />
   <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <style>
     :root {
       --bg: #000;
-      --bg-soft: #0a0a0a;
       --text: #f5f5f7;
       --muted: #86868b;
       --line: rgba(255,255,255,0.12);
       --accent: #00bfb3;
-      --accent-dim: rgba(0,191,179,0.15);
-      --max: 980px;
-      --wide: 1120px;
+      --max: 720px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.47059;
-      letter-spacing: -0.022em;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
-
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: saturate(180%) blur(20px);
-      background: rgba(0,0,0,0.72);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-inner {
-      max-width: var(--wide);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.75rem;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.8125rem;
-    }
-    .nav-brand:hover { text-decoration: none; opacity: 0.85; }
-    .nav-brand img { width: 22px; height: 22px; border-radius: 5px; }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.75rem;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
-    .nav-cta {
-      color: var(--accent) !important;
-      font-weight: 500;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 4.5rem 1.5rem 3.5rem;
-      max-width: var(--max);
-      margin: 0 auto;
-    }
-    .hero img {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      margin-bottom: 1.75rem;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-      color: var(--muted);
-      max-width: 36rem;
-      margin: 0 auto 2rem;
-      font-weight: 400;
-      line-height: 1.4;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 140px;
-      padding: 0.65rem 1.35rem;
-      border-radius: 980px;
-      font-size: 1rem;
-      font-weight: 400;
-      text-decoration: none;
-      transition: opacity 0.2s, background 0.2s;
-    }
-    .btn:hover { text-decoration: none; opacity: 0.92; }
-    .btn-fill {
-      background: var(--accent);
-      color: #001010;
-    }
-    .btn-ghost {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid rgba(0,191,179,0.45);
-    }
-
-    .strip {
-      border-top: 1px solid var(--line);
-      padding: 5rem 1.5rem;
-    }
-    .strip-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      text-align: center;
-    }
-    .strip h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
-      margin-bottom: 0.75rem;
-    }
-    .strip .lead {
-      font-size: 1.25rem;
-      color: var(--muted);
-      max-width: 32rem;
-      margin: 0 auto 2.5rem;
-      line-height: 1.45;
-    }
-    .strip .note {
-      font-size: 0.875rem;
-      color: var(--muted);
-      margin-top: 1.25rem;
-    }
-
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 3rem 1.5rem 4rem; text-align: center; }
+    .logo { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 1.5rem; }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+    .lead { color: var(--muted); font-size: 1.125rem; margin-bottom: 2rem; }
+    .notice {
       text-align: left;
-      margin-top: 1rem;
-    }
-    .pillar h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
-    }
-    .pillar p {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .video-frame {
-      max-width: var(--wide);
-      margin: 0 auto;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #111;
-      aspect-ratio: 16 / 9;
-    }
-    .video-frame iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .credits {
-      font-size: 0.8125rem;
-      color: var(--muted);
-      margin-top: 1.5rem;
-      line-height: 1.6;
-    }
-    .credits strong { color: #aeaeb2; font-weight: 500; }
-
-    .downloads {
-      max-width: 28rem;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .dl-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
+      background: rgba(0,191,179,0.08);
+      border: 1px solid rgba(0,191,179,0.25);
       border-radius: 14px;
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-    }
-    .dl-row h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.15rem;
-    }
-    .dl-row p {
-      font-size: 0.8125rem;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
       color: var(--muted);
     }
-    .btn-dl {
-      flex-shrink: 0;
-      padding: 0.45rem 1rem;
-      border-radius: 980px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text);
-      background: rgba(255,255,255,0.1);
-      text-decoration: none;
-      white-space: nowrap;
+    .notice strong { color: var(--accent); }
+    .downloads { text-align: left; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; }
+    .dl-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--line);
     }
-    .btn-dl:hover { background: rgba(255,255,255,0.16); text-decoration: none; }
-    .btn-dl.loading { opacity: 0.45; pointer-events: none; }
-    .version {
-      text-align: center;
-      font-size: 0.8125rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
+    .dl-row:last-child { border-bottom: none; }
+    .dl-row h3 { font-size: 1rem; font-weight: 600; }
+    .dl-row p { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+      background: var(--accent); color: #041010; white-space: nowrap;
     }
-    .version strong { color: var(--accent); font-weight: 500; }
-
-    .docs-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem 2.5rem;
-      margin-top: 2rem;
-      font-size: 1.0625rem;
-    }
-    .docs-row a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .docs-row a:hover { text-decoration: underline; }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 2rem 1.5rem 3rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--text); }
-
-    @media (max-width: 768px) {
-      .nav-links a:not(.nav-cta) { display: none; }
-      .pillars { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
-      .dl-row { flex-wrap: wrap; }
-    }
+    .btn:hover { text-decoration: none; opacity: 0.9; }
+    .version { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    footer { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
   </style>
 </head>
 <body>
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="nav-brand" href="#">
-        <img src="logo.svg" alt="" width="22" height="22" />
-        Digital Chief of Staff
-      </a>
-      <nav class="nav-links">
-        <a href="#video">Overview</a>
-        <a href="benefits.html">Why DCOS</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="example-prompts.html">Prompts</a>
-        <a href="qa.html">Q&amp;A</a>
-        <a href="#download" class="nav-cta">Download</a>
-      </nav>
-    </div>
-  </header>
+  <div class="wrap">
+    <img class="logo" src="logo.svg" alt="" width="64" height="64" />
+    <h1>Digital Chief of Staff</h1>
+    <p class="lead">Claude Desktop assistant for Elastic field teams — install once, brief from your systems.</p>
 
-  <section class="hero">
-    <img src="logo.svg" alt="Digital Chief of Staff" width="72" height="72" />
-    <h1>Your pipeline's Chief of Staff.</h1>
-    <p>Morning briefs from live CRM, searchable memory, and MEDDPICC coaching — built for Elastic field teams on Claude Desktop.</p>
-    <div class="hero-actions">
-      <a class="btn btn-fill" id="hero-download" href="#download">Download</a>
-      <a class="btn btn-ghost" href="#video">Watch the story</a>
+    <div class="notice" id="access">
+      <strong>Elastic employees only.</strong>
+      Prompt libraries, MEDDPICC playbooks, architecture notes, and CRM setup guides are moving behind
+      <strong>Elastic SSO</strong> on the <a href="https://tools.elastic.dev/p/projects/catalog">Tools Hub</a>.
+      This public page is download-only until the identity-aware proxy is in place.
     </div>
-  </section>
 
-  <section class="strip" id="why">
-    <div class="strip-inner">
-      <h2>Built for how you sell.</h2>
-      <p class="lead">Not a generic chatbot. Ground truth from your systems — not invented ACV.</p>
-      <div class="pillars">
-        <article class="pillar">
-          <h3>Live CRM</h3>
-          <p>BigQuery RevOps certified or Salesforce. Pipeline synced every 15 minutes.</p>
-        </article>
-        <article class="pillar">
-          <h3>Memory</h3>
-          <p>Elasticsearch indexes notes, briefs, and account context — smarter every call.</p>
-        </article>
-        <article class="pillar">
-          <h3>MEDDPICC</h3>
-          <p>Steve Deckrow's stage coach built in. Scorecards and gaps from real opps.</p>
-        </article>
-      </div>
-      <p class="note">SDR · AE · SA · CA · AVP · PS — one install, persona-specific briefs.<br />
-        Every brief: <a href="example-prompts.html#required">required CRM refresh steps</a> first.</p>
+    <p class="version" id="version">Checking latest release…</p>
+    <div class="downloads" id="download">
+      <article class="dl-row">
+        <div>
+          <h3>macOS</h3>
+          <p>Digital-Chief-of-Staff-Installer.dmg</p>
+        </div>
+        <a class="btn" id="btn-dmg" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
+      <article class="dl-row">
+        <div>
+          <h3>Windows</h3>
+          <p>Digital-Chief-of-Staff-Setup.exe</p>
+        </div>
+        <a class="btn" id="btn-exe" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
+      <article class="dl-row">
+        <div>
+          <h3>Claude extension</h3>
+          <p>digital-chief-of-staff.mcpb · jina.mcpb</p>
+        </div>
+        <a class="btn" id="btn-mcpb" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
     </div>
-  </section>
 
-  <section class="strip" id="video">
-    <div class="strip-inner">
-      <h2>The 4‑minute story.</h2>
-      <p class="lead">Field enablement overview — the why, not a product walkthrough. Hands-on starts with the installer.</p>
-      <div class="video-frame">
-        <iframe
-          src="https://www.youtube.com/embed/f0hAEHBA-ck"
-          title="Digital Chief of Staff overview"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
-      </div>
-      <p class="credits">
-        Idea: <strong>Miguel Sampo</strong> · MEDDPICC: <strong>Steve Deckrow</strong> ·
-        Claude credit for SAs &amp; CAs: <strong>Nicholas Drost</strong>
-      </p>
-    </div>
-  </section>
-
-  <section class="strip" id="download">
-    <div class="strip-inner">
-      <h2>Download.</h2>
-      <p class="lead">Double-click install. Elasticsearch, Claude extension, and CRM setup in one flow.</p>
-      <p class="version" id="version">Checking latest release…</p>
-      <div class="downloads">
-        <article class="dl-row">
-          <div>
-            <h3>macOS</h3>
-            <p>Digital-Chief-of-Staff-Installer.dmg</p>
-          </div>
-          <a class="btn-dl loading" id="btn-dmg" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Get</a>
-        </article>
-        <article class="dl-row">
-          <div>
-            <h3>Windows</h3>
-            <p>Digital-Chief-of-Staff-Setup.exe</p>
-          </div>
-          <a class="btn-dl loading" id="btn-exe" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Get</a>
-        </article>
-        <article class="dl-row">
-          <div>
-            <h3>Claude extension</h3>
-            <p>digital-chief-of-staff.mcpb</p>
-          </div>
-          <a class="btn-dl loading" id="btn-mcpb" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Get</a>
-        </article>
-      </div>
-      <nav class="docs-row">
-        <a href="example-prompts.html#required">CRM refresh (required)</a>
-        <a href="example-prompts.html">Example prompts</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="meddpicc-stages.html">MEDDPICC stages</a>
-        <a href="example-prompts.html#services">PS weekly brief</a>
-        <a href="always-on-agent.html">Scheduled briefs</a>
-        <a href="qa.html">Q&amp;A</a>
-      </nav>
-    </div>
-  </section>
-
-  <footer>
-    <p>
-      Digital Chief of Staff · Field enablement for Elastic sales<br />
-      Claude Desktop · Elasticsearch · BigQuery or Salesforce · Requires Node.js 18+
-    </p>
-  </footer>
+    <footer>
+      <p>Docs &amp; prompts: request access via Tools Hub · Questions: Peter Simkins</p>
+      <p style="margin-top:0.5rem">Install guide lives in the private repo after SSO cutover.</p>
+    </footer>
+  </div>
 
   <script>
-    const REPO = "poulsbopete/digital-chief-of-staff-releases";
-    const RELEASES_URL = `https://github.com/${REPO}/releases`;
-
-    function assetUrl(assets, pattern) {
-      return assets.find((x) => pattern.test(x.name))?.browser_download_url || null;
-    }
-
-    function enableBtn(id, url) {
-      const el = document.getElementById(id);
-      if (!url) return;
-      el.href = url;
-      el.classList.remove("loading");
-    }
-
-    async function loadRelease() {
-      const versionEl = document.getElementById("version");
-
+    (async function () {
+      const api = "https://api.github.com/repos/poulsbopete/digital-chief-of-staff-releases/releases/latest";
       try {
-        let data;
-        const latest = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
-        if (latest.ok) {
-          data = await latest.json();
-        } else {
-          const all = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=1`);
-          if (!all.ok) throw new Error("No releases");
-          data = (await all.json())[0];
+        const res = await fetch(api);
+        if (!res.ok) return;
+        const rel = await res.json();
+        const tag = rel.tag_name || "";
+        document.getElementById("version").textContent = tag ? "Latest release: " + tag : "";
+        const base = "https://github.com/poulsbopete/digital-chief-of-staff-releases/releases/download/" + tag + "/";
+        const map = {
+          "btn-dmg": "Digital-Chief-of-Staff-Installer.dmg",
+          "btn-exe": "Digital-Chief-of-Staff-Setup.exe",
+          "btn-mcpb": "digital-chief-of-staff.mcpb",
+        };
+        for (const [id, file] of Object.entries(map)) {
+          const el = document.getElementById(id);
+          if (el && tag) el.href = base + file;
         }
-
-        if (!data?.assets?.length) {
-          versionEl.innerHTML = 'Release building — <a href="' + RELEASES_URL + '">GitHub Releases</a>';
-          document.querySelectorAll(".btn-dl").forEach((b) => b.classList.remove("loading"));
-          return;
-        }
-
-        const assets = data.assets;
-        const date = data.published_at ? new Date(data.published_at).toLocaleDateString() : "";
-        versionEl.innerHTML = `<strong>${data.tag_name || data.name}</strong>${date ? " · " + date : ""}`;
-
-        enableBtn("btn-dmg", assetUrl(assets, /\.dmg$/i));
-        enableBtn("btn-exe", assetUrl(assets, /\.exe$/i));
-        enableBtn("btn-mcpb", assetUrl(assets, /\.mcpb$/i));
-
-        const dmg = assetUrl(assets, /\.dmg$/i);
-        if (dmg) document.getElementById("hero-download").href = dmg;
-      } catch {
-        versionEl.innerHTML = '<a href="' + RELEASES_URL + '">GitHub Releases</a>';
-        document.querySelectorAll(".btn-dl").forEach((b) => b.classList.remove("loading"));
-      }
-    }
-
-    loadRelease();
+      } catch (_) {}
+    })();
   </script>
 </body>
 </html>

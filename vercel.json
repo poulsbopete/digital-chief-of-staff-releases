@@ -6,6 +6,14 @@
   "outputDirectory": "docs",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/example-prompts", "destination": "/#access", "permanent": false },
+    { "source": "/meddpicc-stages", "destination": "/#access", "permanent": false },
+    { "source": "/architecture", "destination": "/#access", "permanent": false },
+    { "source": "/qa", "destination": "/#access", "permanent": false },
+    { "source": "/benefits", "destination": "/#access", "permanent": false },
+    { "source": "/always-on-agent", "destination": "/#access", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/media/(.*)",
@@ -17,7 +25,8 @@
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     }
   ]
