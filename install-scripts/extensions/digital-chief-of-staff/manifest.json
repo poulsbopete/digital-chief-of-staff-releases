@@ -1,0 +1,30 @@
+{
+  "manifest_version": "0.3",
+  "name": "digital-chief-of-staff",
+  "display_name": "Digital Chief of Staff",
+  "version": "0.1.21",
+  "description": "Elastic sales enablement for Claude Desktop. CRM via BigQuery (RevOps certified tables) or Salesforce CLI. Run the DCOS installer for Elasticsearch + API key.",
+  "author": {
+    "name": "Elastic Field Enablement",
+    "url": "https://github.com/elastic/digital-chief-of-staff"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elastic/digital-chief-of-staff.git"
+  },
+  "documentation": "https://github.com/elastic/digital-chief-of-staff/blob/main/docs/INSTALL.md",
+  "server": {
+    "type": "node",
+    "entry_point": "server/dcos-mcp.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/run-dcos-mcp.mjs"]
+    }
+  },
+  "keywords": ["salesforce", "elasticsearch", "meddpic", "elastic", "sales", "mcp", "one-click"],
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}

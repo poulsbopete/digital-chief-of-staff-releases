@@ -1,0 +1,24 @@
+{
+  "mappings": {
+    "properties": {
+      "doc_id": { "type": "keyword" },
+      "sfdc_id": { "type": "keyword" },
+      "object_type": { "type": "keyword" },
+      "account": { "type": "keyword" },
+      "account_id": { "type": "keyword" },
+      "opportunity": { "type": "text" },
+      "stage": { "type": "keyword" },
+      "amount": { "type": "double" },
+      "close_date": { "type": "date" },
+      "probability": { "type": "float" },
+      "owner": { "type": "keyword" },
+      "owner_id": { "type": "keyword" },
+      "title": { "type": "text" },
+      "content": { "type": "text" },
+      "source": { "type": "keyword" },
+      "note_date": { "type": "date" },
+      "created_at": { "type": "date" },
+      "indexed_at": { "type": "date" }
+    }
+  }
+}

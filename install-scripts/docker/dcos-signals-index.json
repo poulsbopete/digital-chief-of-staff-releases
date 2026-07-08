@@ -1,0 +1,21 @@
+{
+  "mappings": {
+    "properties": {
+      "account": { "type": "keyword" },
+      "signal_type": { "type": "keyword" },
+      "title": {
+        "type": "text",
+        "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
+      },
+      "content": { "type": "text" },
+      "source_url": { "type": "keyword" },
+      "meddpic_letters": { "type": "keyword" },
+      "impact": { "type": "keyword" },
+      "persona": { "type": "keyword" },
+      "owner_ae": { "type": "keyword" },
+      "discovered_at": { "type": "date" },
+      "indexed_at": { "type": "date" },
+      "brief_id": { "type": "keyword" }
+    }
+  }
+}

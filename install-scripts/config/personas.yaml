@@ -1,0 +1,56 @@
+# Persona definitions — report focus and delegation rules
+
+personas:
+  avp:
+    label: "Area Vice President"
+    agent: avp-leadership-brief
+    scope: territory              # all accounts in watchlist
+    meddpic_emphasis: [I, E, P]   # rollup risk letters
+    output: "3 talking points + heat map + rep handoffs"
+
+  ae:
+    label: "Account Executive"
+    agent: ae-account-coach
+    scope: owned_accounts         # filter accounts.yaml by owner.ae
+    meddpic_emphasis: [M, E, I, C]
+    output: "scorecard + talk track + next action"
+
+  sdr:
+    label: "Sales Development Rep"
+    agent: sdr-prospecting-brief
+    scope: assigned_accounts      # filter by owner.sdr
+    meddpic_emphasis: [I, M, C]   # pre-qualification only
+    output: "trigger events + outbound hooks"
+
+  sa:
+    label: "Solution Architect"
+    agent: sa-technical-brief
+    scope: technical_accounts       # filter by owner.sa or stage >= eval
+    meddpic_emphasis: [D, P, M]   # criteria, paper, metrics
+    output: "decision criteria matrix + PoC plan"
+
+  ca:
+    label: "Customer Architect"
+    agent: ca-customer-brief
+    scope: customers              # status: customer
+    meddpic_emphasis: [M, I, C]   # expansion framing
+    output: "health + expansion + advocacy"
+
+  services:
+    label: "Professional Services"
+    agent: services-delivery-brief
+    scope: active_engagements     # filter by owner.services; usually status: customer
+    meddpic_emphasis: [P, D, M, I]  # SOW/paper, delivery process, success metrics, scope pain
+    output: "engagement health + milestones + field handoffs"
+
+# Junior → top rep coaching themes (used by AE coach)
+coaching_ladder:
+  - level: junior
+    gaps: ["single-threaded", "no mutual close plan", "feature dumping"]
+    focus: "MEDDPIC discovery, champion building"
+  - level: mid
+    gaps: ["weak EB access", "no paper process map"]
+    focus: "Multi-threading, business case, procurement engagement"
+  - level: senior
+    gaps: ["land-only thinking", "no expansion plan"]
+    focus: "Platform expansion, executive alignment, reference creation"

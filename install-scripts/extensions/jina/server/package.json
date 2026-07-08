@@ -1,0 +1,8 @@
+{
+  "name": "jina-mcp-extension-server",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "mcp-remote": "^0.1.38"
+  }
+}

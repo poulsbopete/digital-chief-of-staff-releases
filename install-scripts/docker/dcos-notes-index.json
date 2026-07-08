@@ -1,0 +1,27 @@
+{
+  "mappings": {
+    "properties": {
+      "doc_id": { "type": "keyword" },
+      "content": { "type": "text" },
+      "title": {
+        "type": "text",
+        "fields": { "keyword": { "type": "keyword", "ignore_above": 256 } }
+      },
+      "account": { "type": "keyword" },
+      "account_id": { "type": "keyword" },
+      "opportunity": { "type": "text" },
+      "stage": { "type": "keyword" },
+      "source": { "type": "keyword" },
+      "persona": { "type": "keyword" },
+      "meddpic_letters": { "type": "keyword" },
+      "blocker_tags": { "type": "keyword" },
+      "owner": { "type": "keyword" },
+      "opportunity_id": { "type": "keyword" },
+      "meeting_date": { "type": "date" },
+      "suggested_sfdc_updates": { "type": "text" },
+      "note_date": { "type": "date" },
+      "created_at": { "type": "date" },
+      "indexed_at": { "type": "date" }
+    }
+  }
+}

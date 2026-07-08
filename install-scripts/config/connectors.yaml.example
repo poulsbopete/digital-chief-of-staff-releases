@@ -1,0 +1,112 @@
+# Internal tool connectors — copy to connectors.yaml
+# Used by dcos_connector_list and dcos_connector_call MCP tools.
+#
+# Auth: use ${ENV_VAR} placeholders resolved at runtime.
+
+connectors:
+
+  slack:
+    type: slack
+    description: Elastic Slack workspace — search, DMs, post briefs
+    bot_token: ${DCOS_SLACK_BOT_TOKEN}
+    actions:
+      search_channels:
+        api_method: conversations.list
+        method: GET
+      channel_history:
+        api_method: conversations.history
+        method: GET
+      search_messages:
+        api_method: search.messages
+        method: GET
+      open_dm:
+        api_method: conversations.open
+        method: POST
+      post_message:
+        api_method: chat.postMessage
+        method: POST
+
+  elastic-kb:
+    type: rest
+    description: Internal Elastic knowledge base / search API (customize base_url)
+    base_url: ${DCOS_ELASTIC_KB_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_ELASTIC_KB_TOKEN}
+    actions:
+      search:
+        method: GET
+        path: /search?q={query}&limit={limit}
+      get_doc:
+        method: GET
+        path: /docs/{doc_id}
+
+  gdrive-granola:
+    type: rest
+    description: Meeting notes from Google Drive / Granola export (webhook or internal API)
+    base_url: ${DCOS_MEETING_NOTES_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_MEETING_NOTES_TOKEN}
+    actions:
+      recent_meetings:
+        method: GET
+        path: /meetings?account={account}&days={days}
+      get_transcript:
+        method: GET
+        path: /meetings/{meeting_id}/transcript
+
+  # Google Gmail — requires a small internal proxy or Google Apps Script endpoint
+  # that searches mail with a service account / domain-wide delegation.
+  # Alternatively use Claude Cowork Gmail connector in the automation prompt.
+  gmail:
+    type: rest
+    description: Gmail search proxy for watchlist account threads (last 24h)
+    base_url: ${DCOS_GMAIL_PROXY_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_GMAIL_PROXY_TOKEN}
+    actions:
+      search:
+        method: GET
+        path: /search?q={query}&after_hours={after_hours}&limit={limit}
+
+  # Google Drive — file search proxy (modified since, account folder names)
+  google-drive:
+    type: rest
+    description: Drive search proxy for deal folders and shared docs
+    base_url: ${DCOS_GDRIVE_PROXY_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_GDRIVE_PROXY_TOKEN}
+    actions:
+      search_files:
+        method: GET
+        path: /files/search?q={query}&modified_hours={modified_hours}&limit={limit}
+
+  # Zoom — meeting history proxy (account name in topic)
+  zoom:
+    type: rest
+    description: Recent Zoom meetings and summaries for watchlist accounts
+    base_url: ${DCOS_ZOOM_PROXY_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_ZOOM_PROXY_TOKEN}
+    actions:
+      recent_meetings:
+        method: GET
+        path: /meetings?query={query}&days={days}
+      get_summary:
+        method: GET
+        path: /meetings/{meeting_id}/summary
+
+  # Example: Elastic internal case lookup
+  support-cases:
+    type: rest
+    description: Customer support case search (configure for your internal API)
+    base_url: ${DCOS_SUPPORT_API_URL}
+    auth_header: Bearer
+    auth_token: ${DCOS_SUPPORT_API_TOKEN}
+    actions:
+      by_account:
+        method: GET
+        path: /cases?account={account}&status=open
+
+# Additional MCP servers (configure separately in Cursor — not via connector_call):
+#   jina          — web research, URL reading, reranking
+#   slack MCP     — if using Cursor Slack plugin instead of REST connector

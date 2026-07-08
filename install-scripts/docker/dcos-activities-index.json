@@ -1,0 +1,19 @@
+{
+  "mappings": {
+    "properties": {
+      "doc_id": { "type": "keyword" },
+      "sfdc_id": { "type": "keyword" },
+      "object_type": { "type": "keyword" },
+      "account": { "type": "keyword" },
+      "opportunity": { "type": "text" },
+      "title": { "type": "text" },
+      "content": { "type": "text" },
+      "status": { "type": "keyword" },
+      "owner": { "type": "keyword" },
+      "source": { "type": "keyword" },
+      "note_date": { "type": "date" },
+      "created_at": { "type": "date" },
+      "indexed_at": { "type": "date" }
+    }
+  }
+}

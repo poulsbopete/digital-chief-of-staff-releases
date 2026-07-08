@@ -1,0 +1,30 @@
+{
+  "manifest_version": "0.3",
+  "name": "jina-web-research",
+  "display_name": "Jina",
+  "version": "0.1.3",
+  "description": "Web research for Digital Chief of Staff morning briefs. Reads JINA_API_KEY from ~/.config/dcos/env.sh (installer prompts).",
+  "author": {
+    "name": "Elastic Field Enablement",
+    "url": "https://github.com/elastic/digital-chief-of-staff"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elastic/digital-chief-of-staff.git"
+  },
+  "documentation": "https://github.com/elastic/digital-chief-of-staff/blob/main/docs/CLAUDE_DESKTOP.md",
+  "server": {
+    "type": "node",
+    "entry_point": "server/run-jina-mcp.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/run-jina-mcp.mjs"]
+    }
+  },
+  "keywords": ["jina", "web-search", "research", "mcp", "sales", "digital-chief-of-staff"],
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}
