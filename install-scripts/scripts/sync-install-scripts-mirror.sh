@@ -26,6 +26,7 @@ cp -f "${ROOT}/config/github-repos.defaults.sh" "${DEST}/config/"
 cp -f "${ROOT}/config/connectors.yaml.example" "${DEST}/config/" 2>/dev/null || true
 cp -f "${ROOT}/config/personas.yaml" "${DEST}/config/" 2>/dev/null || true
 
+mkdir -p "${DEST}/extensions" "${DEST}/skills"
 rsync -a \
   "${ROOT}/extensions/digital-chief-of-staff/" "${DEST}/extensions/digital-chief-of-staff/"
 rsync -a \
