@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Digital Chief of Staff — Elastic field teams</title>
+  <meta name="description" content="Claude Desktop installer for Elastic field teams. Internal documentation is available via Elastic SSO." />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #000;
+      --text: #f5f5f7;
+      --muted: #86868b;
+      --line: rgba(255,255,255,0.12);
+      --accent: #00bfb3;
+      --max: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 3rem 1.5rem 4rem; text-align: center; }
+    .logo { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 1.5rem; }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+    .lead { color: var(--muted); font-size: 1.125rem; margin-bottom: 2rem; }
+    .notice {
+      text-align: left;
+      background: rgba(0,191,179,0.08);
+      border: 1px solid rgba(0,191,179,0.25);
+      border-radius: 14px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .notice strong { color: var(--accent); }
+    .downloads { text-align: left; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; }
+    .dl-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--line);
+    }
+    .dl-row:last-child { border-bottom: none; }
+    .dl-row h3 { font-size: 1rem; font-weight: 600; }
+    .dl-row p { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+      background: var(--accent); color: #041010; white-space: nowrap;
+    }
+    .btn:hover { text-decoration: none; opacity: 0.9; }
+    .version { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    footer { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="logo" src="logo.svg" alt="" width="64" height="64" />
+    <h1>Digital Chief of Staff</h1>
+    <p class="lead">Claude Desktop assistant for Elastic field teams — install once, brief from your systems.</p>
+
+    <div class="notice" id="access">
+      <strong>Elastic employees only.</strong>
+      Prompt libraries, MEDDPICC playbooks, architecture notes, and CRM setup guides are moving behind
+      <strong>Elastic SSO</strong> on the <a href="https://tools.elastic.dev/p/projects/catalog">Tools Hub</a>.
+      This public page is download-only until the identity-aware proxy is in place.
+    </div>
+
+    <p class="version" id="version">Checking latest release…</p>
+    <div class="downloads" id="download">
+      <article class="dl-row">
+        <div>
+          <h3>macOS</h3>
+          <p>Digital-Chief-of-Staff-Installer.dmg</p>
+        </div>
+        <a class="btn" id="btn-dmg" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
+      <article class="dl-row">
+        <div>
+          <h3>Windows</h3>
+          <p>Digital-Chief-of-Staff-Setup.exe</p>
+        </div>
+        <a class="btn" id="btn-exe" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
+      <article class="dl-row">
+        <div>
+          <h3>Claude extension</h3>
+          <p>digital-chief-of-staff.mcpb · jina.mcpb</p>
+        </div>
+        <a class="btn" id="btn-mcpb" href="https://github.com/poulsbopete/digital-chief-of-staff-releases/releases">Download</a>
+      </article>
+    </div>
+
+    <footer>
+      <p>Docs &amp; prompts: request access via Tools Hub · Questions: Peter Simkins</p>
+      <p style="margin-top:0.5rem">Install guide lives in the private repo after SSO cutover.</p>
+    </footer>
+  </div>
+
+  <script>
+    (async function () {
+      const api = "https://api.github.com/repos/poulsbopete/digital-chief-of-staff-releases/releases/latest";
+      try {
+        const res = await fetch(api);
+        if (!res.ok) return;
+        const rel = await res.json();
+        const tag = rel.tag_name || "";
+        document.getElementById("version").textContent = tag ? "Latest release: " + tag : "";
+        const base = "https://github.com/poulsbopete/digital-chief-of-staff-releases/releases/download/" + tag + "/";
+        const map = {
+          "btn-dmg": "Digital-Chief-of-Staff-Installer.dmg",
+          "btn-exe": "Digital-Chief-of-Staff-Setup.exe",
+          "btn-mcpb": "digital-chief-of-staff.mcpb",
+        };
+        for (const [id, file] of Object.entries(map)) {
+          const el = document.getElementById(id);
+          if (el && tag) el.href = base + file;
+        }
+      } catch (_) {}
+    })();
+  </script>
+</body>
+</html>
