@@ -27,36 +27,68 @@ function esControlScript() {
   return existsSync(ctl) ? ctl : null;
 }
 
-export async function probeElasticsearch(esUrl = requireElasticsearchUrl()) {
+function probeFailure(esUrl, local, error, fix_steps) {
+  return { ok: false, url: esUrl, local, error, fix_steps };
+}
+
+async function probeServerlessRoot(es, esUrl, local) {
   try {
-    const es = createEsClient(esUrl);
+    const root = await es.esFetch("/");
+    const buildFlavor = root.version?.build_flavor;
+    const serverless = buildFlavor === "serverless" || /\.elastic\.cloud/i.test(esUrl);
+    return {
+      ok: true,
+      url: esUrl,
+      flavor: serverless ? "serverless" : "cloud",
+      serverless,
+      version: root.version?.number,
+      cluster_name: root.cluster_name,
+      local,
+      status: "serverless",
+      note:
+        "Elastic Serverless (Search or Elasticsearch project) does not expose /_cluster/health — connectivity verified via GET /.",
+    };
+  } catch (e) {
+    return probeFailure(esUrl, local, e.message, local ? LOCAL_ES_FIX_HINTS : cloudFixHints());
+  }
+}
+
+export async function probeElasticsearch(esUrl = requireElasticsearchUrl()) {
+  const es = createEsClient(esUrl);
+  const local = isLocalElasticsearchUrl(esUrl);
+
+  try {
     const health = await es.esFetch("/_cluster/health");
-    const local = isLocalElasticsearchUrl(esUrl);
     const ok = health.status === "green" || health.status === "yellow";
     return {
       ok,
       url: esUrl,
+      flavor: local ? "local" : "stateful",
+      serverless: false,
       status: health.status,
       local,
       error: ok ? undefined : `Cluster status is ${health.status}`,
       fix_steps: ok ? undefined : local ? LOCAL_ES_FIX_HINTS : cloudFixHints(),
     };
   } catch (e) {
-    const local = isLocalElasticsearchUrl(esUrl);
-    return {
-      ok: false,
-      url: esUrl,
+    // Serverless Search + Elasticsearch projects return 410 for cluster-level APIs.
+    if (e.status === 410) {
+      return probeServerlessRoot(es, esUrl, local);
+    }
+    return probeFailure(
+      esUrl,
       local,
-      error: e.message,
-      fix_steps: local ? LOCAL_ES_FIX_HINTS : cloudFixHints(),
-    };
+      e.message,
+      local ? LOCAL_ES_FIX_HINTS : cloudFixHints()
+    );
   }
 }
 
 function cloudFixHints() {
   return [
-    "Check ELASTICSEARCH_URL and ELASTICSEARCH_API_KEY in ~/.config/dcos/env.sh",
-    "For local DCOS: export ELASTICSEARCH_URL=http://127.0.0.1:9200",
+    "Check ELASTICSEARCH_URL and ELASTICSEARCH_API_KEY in ~/.config/dcos/env.sh and Claude extension settings",
+    "Serverless API key needs create_index + write privileges for dcos_* indices",
+    "Local ES (separate from your other clusters): export ELASTICSEARCH_URL=http://127.0.0.1:9200",
   ];
 }
 

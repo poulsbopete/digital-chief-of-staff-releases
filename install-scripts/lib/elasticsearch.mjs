@@ -9,7 +9,7 @@ export function requireElasticsearchUrl() {
   const raw = (process.env.ELASTICSEARCH_URL || "").trim().replace(/\/$/, "");
   if (!raw) {
     throw new Error(
-      "ELASTICSEARCH_URL is required (Elastic Cloud Serverless HTTPS or http://localhost:9200 for local)."
+      "ELASTICSEARCH_URL is required (Elastic Serverless Search/Elasticsearch project HTTPS, or http://localhost:9200 for local DCOS)."
     );
   }
   return raw;
